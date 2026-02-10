@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Shine Utensils | Categories</title>
+
+  <!-- Bootstrap + Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+
+  <style>
+    body {
+      padding-top: 80px;
+      font-family: "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #120018, #000);
+      color: #fff;
+      overflow-x: hidden;
+    }
+
+    /* ===== IDENTICAL NAVBAR ===== */
+    .custom-navbar {
+      background: linear-gradient(90deg, #b11226, #6a0dad);
+    }
+
+    .navbar-nav .nav-link {
+      position: relative;
+      margin-left: 12px;
+      font-weight: 500;
+      color: #fff;
+      transition: 0.3s;
+    }
+
+    .navbar-nav .nav-link::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -6px;
+      width: 0%;
+      height: 2px;
+      background: #fff;
+      transition: 0.3s;
+    }
+
+    .navbar-nav .nav-link:hover::after,
+    .navbar-nav .nav-link.active::after {
+      width: 100%;
+    }
+
+       /* ===== PREMIUM NEON LOGO (UPDATED) ===== */
+.nav-logo {
+  height: 40px;  /* INCREASED SIZE: Adjust this number if you want it even bigger */
+  width: auto;   /* Keeps the logo from getting squashed */
+  margin-right: 15px;
+  object-fit: contain;
+  
+  /* 1. Neon Glow: This only looks good if your image has a TRANSPARENT background */
+  filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.9)) 
+          drop-shadow(0 0 10px rgba(188, 19, 254, 0.8));
+  
+  /* 2. Floating Animation */
+  animation: logoFloat 3s ease-in-out infinite;
+  transition: transform 0.3s ease;
+}
+
+/* Hover Effect: slight zoom */
+.navbar-brand:hover .nav-logo {
+  transform: scale(1.1); 
+  filter: drop-shadow(0 0 5px rgba(255, 255, 255, 1)) 
+          drop-shadow(0 0 20px rgba(188, 19, 254, 1));
+}
+
+/* Floating Keyframes */
+@keyframes logoFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+/* Adjust Navbar Brand text to align with bigger logo */
+.navbar-brand {
+  font-size: 1.5rem; /* Makes text slightly bigger to match logo */
+  display: flex;
+  align-items: center;
+}
+
+    /* ===== ANIMATED GRID BG ===== */
+    .grid-bg {
+      position: fixed;
+      inset: 0;
+      background:
+        linear-gradient(transparent 95%, rgba(255,0,255,0.15) 96%),
+        linear-gradient(90deg, transparent 95%, rgba(0,255,255,0.15) 96%);
+      background-size: 40px 40px;
+      animation: gridMove 20s linear infinite;
+      z-index: -2;
+    }
+
+    @keyframes gridMove {
+      from { background-position: 0 0; }
+      to { background-position: 400px 400px; }
+    }
+
+    /* ===== TITLE ===== */
+    .neon-title {
+      font-size: 3.2rem;
+      font-weight: 800;
+      text-shadow:
+        0 0 10px #ff004f,
+        0 0 30px #6a0dad;
+    }
+
+    /* ===== CATEGORY CARD ===== */
+    .category-card {
+      position: relative;
+      background: rgba(0,0,0,0.7);
+      border-radius: 22px;
+      padding: 50px 30px;
+      text-align: center;
+      border: 2px solid rgba(255,255,255,0.15);
+      box-shadow: 0 0 30px rgba(255,0,255,0.25);
+      transition: transform 0.2s ease, box-shadow 0.3s ease;
+      transform-style: preserve-3d;
+      overflow: hidden;
+    }
+
+    .category-card::before {
+      content: "";
+      position: absolute;
+      inset: -2px;
+      background: linear-gradient(120deg, transparent, #ff004f, #6a0dad, transparent);
+      opacity: 0;
+      transition: 0.4s;
+    }
+
+    .category-card:hover::before {
+      opacity: 1;
+    }
+
+    .category-card:hover {
+      box-shadow:
+        0 0 40px #ff004f,
+        0 0 80px #6a0dad;
+    }
+
+    /* ===== ICON ===== */
+    .cat-icon {
+      font-size: 4rem;
+      margin-bottom: 20px;
+      color: #00fff7;
+      text-shadow: 0 0 20px #00fff7;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%,100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .cat-name {
+      font-size: 1.6rem;
+      font-weight: 700;
+    }
+
+    .cat-desc {
+      font-size: 0.95rem;
+      opacity: 0.85;
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      background: linear-gradient(90deg, #6a0dad, #b11226);
+      padding: 30px 0;
+      margin-top: 100px;
+    }
+
+    footer a {
+      color: #fff;
+      margin: 0 10px;
+      font-size: 20px;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="grid-bg"></div>
+
+<nav class="navbar navbar-expand-lg navbar-dark custom-navbar fixed-top">
+  <div class="container-fluid px-4"> 
+    
+    <a class="navbar-brand fw-bold d-flex align-items-center" href="index.html">
+      <img src="logo.png" alt="Logo" class="nav-logo">
+      Shine Utensils
+    </a>
+
+    <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navMenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0 nav-animated">
+        <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="Products.html">Products</a></li>
+        <li class="nav-item"><a class="nav-link active" href="#">Categories</a></li>
+        <li class="nav-item"><a class="nav-link" href="specifications.html">Specifications</a></li>
+        <li class="nav-item"><a class="nav-link" href="offers.html">Offers</a></li>
+        <li class="nav-item"><a class="nav-link" href="comparison.html">Comparison</a></li>
+        <li class="nav-item"><a class="nav-link" href="cart.html">Cart</a></li>
+        <li class="nav-item"><a class="nav-link" href="checkout.html">Checkout</a></li>
+        <li class="nav-item"><a class="nav-link" href="feedback.html">Feedback</a></li>
+        <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- CONTENT -->
+<div class="container text-center">
+  <h1 class="neon-title mb-3">⚡ Product Categories ⚡</h1>
+  <p class="mb-5">Choose your cooking dimension</p>
+
+  <div class="row g-4">
+
+    <div class="col-md-4">
+      <div class="category-card tilt">
+        <div class="cat-icon"><i class="fa-solid fa-utensils"></i></div>
+        <div class="cat-name">Economy Range</div>
+        <p class="cat-desc">Optimized for daily efficiency</p>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="category-card tilt">
+        <div class="cat-icon"><i class="fa-solid fa-fire-burner"></i></div>
+        <div class="cat-name">Standard Series</div>
+        <p class="cat-desc">Precision & performance balanced</p>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="category-card tilt">
+        <div class="cat-icon"><i class="fa-solid fa-gem"></i></div>
+        <div class="cat-name">Premium Core</div>
+        <p class="cat-desc">Engineered luxury cookware</p>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="category-card tilt">
+        <div class="cat-icon"><i class="fa-solid fa-layer-group"></i></div>
+        <div class="cat-name">Cookware Sets</div>
+        <p class="cat-desc">Modular kitchen systems</p>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="category-card tilt">
+        <div class="cat-icon"><i class="fa-solid fa-gift"></i></div>
+        <div class="cat-name">Festive Combos</div>
+        <p class="cat-desc">Celebration-ready packages</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="text-center">
+  <p>© 2026 Shine Utensils</p>
+  <div>
+    <a href="#"><i class="fab fa-instagram"></i></a>
+    <a href="#"><i class="fab fa-facebook"></i></a>
+    <a href="#"><i class="fab fa-twitter"></i></a>
+  </div>
+</footer>
+
+<script>
+  // 3D TILT EFFECT
+  document.querySelectorAll(".tilt").forEach(card => {
+    card.addEventListener("mousemove", e => {
+      const r = card.getBoundingClientRect();
+      const x = e.clientX - r.left;
+      const y = e.clientY - r.top;
+      const rx = -(y - r.height / 2) / 20;
+      const ry = (x - r.width / 2) / 20;
+      card.style.transform = `rotateX(${rx}deg) rotateY(${ry}deg)`;
+    });
+    card.addEventListener("mouseleave", () => {
+      card.style.transform = "rotateX(0) rotateY(0)";
+    });
+  });
+</script>
+
+</body>
+</html>

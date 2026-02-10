@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Shine Utensils | Truth Comparison</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+
+  <style>
+    /* GLOBAL VARIABLES (Standard Mode Default) */
+    :root {
+      --primary-grad: linear-gradient(90deg, #b11226, #6a0dad);
+      --bg-color: #f4f6f8;
+      --text-color: #333;
+      --card-bg: #fff;
+      --card-shadow: 0 20px 40px rgba(0,0,0,0.1);
+      
+      /* NEON COLORS */
+      --neon-purple: #bc13fe;
+      --neon-red: #ff073a;
+      --neon-green: #39ff14;
+      --neon-blue: #00f3ff;
+    }
+
+    body {
+      padding-top: 80px;
+      font-family: "Segoe UI", sans-serif;
+      background: var(--bg-color);
+      color: var(--text-color);
+      transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ===== NAVBAR ===== */
+    .custom-navbar {
+      background: linear-gradient(90deg, #b11226, #6a0dad);
+      transition: all 0.6s ease;
+      border-bottom: 1px solid transparent;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    .navbar-nav .nav-link {
+      position: relative;
+      margin-left: 12px;
+      font-weight: 500;
+      color: #fff !important;
+      transition: all 0.3s ease;
+    }
+
+    .navbar-nav .nav-link::after {
+      content: ""; position: absolute; left: 0; bottom: -6px; width: 0%; height: 2px; background: #fff; transition: width 0.3s ease;
+    }
+    .navbar-nav .nav-link:hover::after, .navbar-nav .nav-link.active::after { width: 100%; }
+
+       /* ===== PREMIUM NEON LOGO (UPDATED) ===== */
+.nav-logo {
+  height: 40px;  /* INCREASED SIZE: Adjust this number if you want it even bigger */
+  width: auto;   /* Keeps the logo from getting squashed */
+  margin-right: 15px;
+  object-fit: contain;
+  
+  /* 1. Neon Glow: This only looks good if your image has a TRANSPARENT background */
+  filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.9)) 
+          drop-shadow(0 0 10px rgba(188, 19, 254, 0.8));
+  
+  /* 2. Floating Animation */
+  animation: logoFloat 3s ease-in-out infinite;
+  transition: transform 0.3s ease;
+}
+
+/* Hover Effect: slight zoom */
+.navbar-brand:hover .nav-logo {
+  transform: scale(1.1); 
+  filter: drop-shadow(0 0 5px rgba(255, 255, 255, 1)) 
+          drop-shadow(0 0 20px rgba(188, 19, 254, 1));
+}
+
+/* Floating Keyframes */
+@keyframes logoFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+/* Adjust Navbar Brand text to align with bigger logo */
+.navbar-brand {
+  font-size: 1.5rem; /* Makes text slightly bigger to match logo */
+  display: flex;
+  align-items: center;
+}
+
+    /* ===== TOGGLE SWITCH ===== */
+    .switch-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 40px;
+      padding: 10px 20px;
+      background: rgba(0,0,0,0.05);
+      border-radius: 50px;
+      width: fit-content;
+      margin-left: auto;
+      margin-right: auto;
+      transition: 0.3s;
+    }
+
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 60px;
+      height: 34px;
+    }
+    .switch input { opacity: 0; width: 0; height: 0; }
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: #999;
+      transition: .4s;
+      border-radius: 34px;
+    }
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 26px;
+      width: 26px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+    }
+    input:checked + .slider { background-color: var(--neon-red); box-shadow: 0 0 15px var(--neon-red); }
+    input:checked + .slider:before { transform: translateX(26px); }
+
+    /* ===== CARDS ===== */
+    .compare-card {
+      background: var(--card-bg);
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: var(--card-shadow);
+      transition: all 0.6s ease;
+      border: 1px solid rgba(0,0,0,0.05);
+    }
+
+    .form-select {
+      border-radius: 10px;
+      padding: 12px;
+      border: 1px solid #ced4da;
+      transition: 0.3s;
+    }
+
+    /* VS BADGE (Dynamic) */
+    .vs-badge {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 1.2rem;
+      margin: 0 auto;
+      transition: 0.5s;
+      background: #eee;
+      color: #555;
+    }
+
+    /* Button */
+    .btn-compare {
+      background: var(--primary-grad);
+      color: white;
+      border: none;
+      padding: 14px 30px;
+      border-radius: 50px;
+      font-weight: bold;
+      width: 100%;
+      font-size: 1.1rem;
+      transition: 0.3s;
+    }
+    .btn-compare:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
+
+    /* ===== RESULT TABLE ===== */
+    .table-container {
+      overflow: hidden;
+      border-radius: 15px;
+      margin-top: 20px;
+    }
+    
+    .table th { background: #eee; padding: 20px; transition: 0.5s; text-transform: uppercase; font-size: 0.9rem; letter-spacing: 1px;}
+    .table td { padding: 20px; vertical-align: middle; transition: 0.5s; font-size: 1rem;}
+
+    /* Standard Mode Styles */
+    .winner-std { background-color: #d1e7dd !important; color: #0f5132; font-weight: bold; border-left: 5px solid #198754; }
+    .loser-std { color: #333; opacity: 1; } /* Explicitly visible in standard mode */
+
+    /* ===== "LET'S BE REAL" MODE (NEON) ===== */
+    body.neon-mode {
+      --bg-color: #050505;
+      --text-color: #e0e0e0;
+      --card-bg: rgba(20, 20, 20, 0.95);
+    }
+
+    /* Neon Navbar & Footer */
+    body.neon-mode .custom-navbar {
+      background: #000;
+      border-bottom: 2px solid var(--neon-red);
+      box-shadow: 0 0 25px rgba(255, 7, 58, 0.4);
+    }
+    body.neon-mode footer {
+      background: #000 !important;
+      border-top: 2px solid var(--neon-purple);
+      box-shadow: 0 -5px 30px rgba(188, 19, 254, 0.3);
+    }
+    body.neon-mode .nav-link { color: #fff !important; text-shadow: 0 0 5px var(--neon-red); }
+
+    /* Neon Switch Wrapper */
+    body.neon-mode .switch-wrapper {
+        background: rgba(255, 7, 58, 0.1);
+        border: 1px solid var(--neon-red);
+        box-shadow: 0 0 15px rgba(255, 7, 58, 0.2);
+    }
+
+    /* Neon Card */
+    body.neon-mode .compare-card {
+      border: 1px solid rgba(255,255,255,0.1);
+      box-shadow: 0 0 40px rgba(188, 19, 254, 0.15);
+      backdrop-filter: blur(15px);
+    }
+
+    body.neon-mode .form-select {
+      background: #111;
+      color: #fff;
+      border-color: #444;
+    }
+    body.neon-mode .form-select:focus { box-shadow: 0 0 15px var(--neon-blue); border-color: var(--neon-blue); }
+
+    /* RED PULSING VS BADGE */
+    body.neon-mode .vs-badge {
+      background: #000;
+      color: #fff;
+      border: 2px solid var(--neon-red);
+      box-shadow: 0 0 20px var(--neon-red);
+      animation: pulseRed 1.5s infinite;
+      font-style: italic;
+    }
+    @keyframes pulseRed {
+      0% { box-shadow: 0 0 0 0 rgba(255, 7, 58, 0.7); }
+      70% { box-shadow: 0 0 0 10px rgba(255, 7, 58, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(255, 7, 58, 0); }
+    }
+
+    /* Neon Button */
+    body.neon-mode .btn-compare {
+      background: transparent;
+      border: 2px solid var(--neon-green);
+      color: var(--neon-green);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      box-shadow: 0 0 15px rgba(57, 255, 20, 0.3);
+    }
+    body.neon-mode .btn-compare:hover {
+      background: var(--neon-green);
+      color: #000;
+      box-shadow: 0 0 40px var(--neon-green);
+    }
+
+    /* Neon Table Styles */
+    body.neon-mode .table { color: #fff; background: transparent; }
+    body.neon-mode .table th { 
+        background: rgba(188, 19, 254, 0.15); 
+        color: var(--neon-blue); 
+        border-bottom: 2px solid var(--neon-purple); 
+        font-size: 1rem;
+    }
+    body.neon-mode .table td { 
+        background: transparent !important; /* Ensure transparent background */
+        border-bottom: 1px solid rgba(255,255,255,0.1); 
+    }
+    
+    /* Neon Winners */
+    body.neon-mode .winner-std {
+      background: rgba(57, 255, 20, 0.1) !important;
+      color: var(--neon-green) !important;
+      border-left: 3px solid var(--neon-green);
+      text-shadow: 0 0 10px rgba(57, 255, 20, 0.6);
+    }
+    
+    /* Neon Losers (FIXED VISIBILITY) */
+    body.neon-mode .loser-std {
+      color: #ccc !important; /* Bright Grey for visibility against black */
+      opacity: 1 !important;
+      text-shadow: none;
+      font-weight: 500;
+      background: transparent !important;
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      background: linear-gradient(90deg, #6a0dad, #b11226);
+      color: #fff;
+      padding: 40px 0;
+      margin-top: auto;
+      transition: background 0.6s ease, box-shadow 0.6s ease;
+    }
+  </style>
+</head>
+
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark custom-navbar fixed-top">
+  <div class="container-fluid px-4"> 
+    
+    <a class="navbar-brand fw-bold d-flex align-items-center" href="index.html">
+      <img src="logo.png" alt="Logo" class="nav-logo">
+      Shine Utensils
+    </a>
+
+    <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navMenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0 nav-animated">
+        <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="Products.html">Products</a></li>
+        <li class="nav-item"><a class="nav-link" href="categories.html">Categories</a></li>
+        <li class="nav-item"><a class="nav-link" href="specifications.html">Specifications</a></li>
+        <li class="nav-item"><a class="nav-link" href="offers.html">Offers</a></li>
+        <li class="nav-item"><a class="nav-link active" href="#">Comparison</a></li>
+        <li class="nav-item"><a class="nav-link" href="cart.html">Cart</a></li>
+        <li class="nav-item"><a class="nav-link" href="checkout.html">Checkout</a></li>
+        <li class="nav-item"><a class="nav-link" href="feedback.html">Feedback</a></li>
+        <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container" style="margin-top: 40px; flex: 1;">
+  
+  <div class="text-center mb-5">
+    <h2 class="fw-bold display-5 mb-3" id="pageTitle">Product Comparison</h2>
+    
+    <div class="switch-wrapper">
+      <span class="fw-bold small text-muted" id="modeLabel">Standard View</span>
+      <label class="switch">
+        <input type="checkbox" id="neonToggle" onclick="toggleMode()">
+        <span class="slider"></span>
+      </label>
+      <span class="fw-bold small" style="color: var(--neon-red); text-shadow: 0 0 10px var(--neon-red); display:none;" id="neonLabel">LET'S BE REAL MODE</span>
+    </div>
+    <p class="text-muted" id="subtitle">Select products to see the difference.</p>
+  </div>
+
+  <div class="compare-card mb-5">
+    <div class="row g-4 align-items-center">
+      <div class="col-md-5">
+        <label class="fw-bold mb-2 text-secondary">Shine Utensils</label>
+        <select id="shineSelect" class="form-select">
+          <option value="">Select Product...</option>
+        </select>
+      </div>
+      
+      <div class="col-md-2 text-center">
+        <div class="vs-badge" id="vsBadge">VS</div>
+      </div>
+
+      <div class="col-md-5">
+        <label class="fw-bold mb-2 text-secondary">Competitor</label>
+        <select id="compSelect" class="form-select">
+          <option value="">Select Competitor...</option>
+        </select>
+      </div>
+
+      <div class="col-12 mt-4">
+        <button class="btn-compare" onclick="compare()">
+          <i class="fas fa-bolt me-2"></i> REVEAL COMPARISON
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="compare-card d-none" id="resultCard">
+    <div class="table-container">
+      <table class="table text-center align-middle mb-0">
+        <thead>
+          <tr>
+            <th style="width: 25%;">Metric</th>
+            <th id="shineName" style="width: 37%;"></th>
+            <th id="compName" style="width: 37%;"></th>
+          </tr>
+        </thead>
+        <tbody id="compareBody">
+          </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<footer class="text-center">
+  <div class="container">
+      <h4 class="fw-bold">Shine Utensils</h4>
+      <p class="small opacity-75">Transparency in every product.</p>
+      <div class="mt-3">
+        <a href="#" class="text-white mx-2"><i class="fab fa-instagram"></i></a>
+        <a href="#" class="text-white mx-2"><i class="fab fa-facebook"></i></a>
+      </div>
+      <p class="mb-0 mt-3 small opacity-50">© 2026 Shine Utensils.</p>
+  </div>
+</footer>
+
+<script>
+  // --- 8 PRODUCTS DATA (STANDARD & REALITY) ---
+  
+  // Real Competitors Mapped: 
+  // Steel -> Prestige
+  // Kadai -> Pigeon
+  // Tawa -> Local/Generic
+  // Bowl -> Wonderchef
+  // Non-Stick -> Hawkins
+  // Pressure Cooker -> Prestige
+  // Copper -> Vinod
+  // Luxury -> Bergner
+
+  const productsDB = [
+    {
+      name: "Shine Steel Plate Set",
+      competitor: "Prestige Steel Plate Set",
+      std: { price: 499, cPrice: 599, mat: "Premium Steel", cMat: "Standard Steel", life: "High", cLife: "Medium" },
+      real: { price: "499Rs (Factory Direct)", cPrice: "599Rs (Retail Markup)", mat: "304 Food Grade", cMat: "202 Mixed Grade", safety: "100% Rust Proof", cSafety: "Prone to Rust", verdict: "Lifetime Value", cVerdict: "Overpriced" }
+    },
+    {
+      name: "Shine Aluminium Kadai",
+      competitor: "Pigeon Aluminium Kadai",
+      std: { price: 699, cPrice: 749, mat: "Virgin Aluminium", cMat: "Recycled Aluminium", life: "High", cLife: "Medium" },
+      real: { price: "699Rs", cPrice: "749Rs", mat: "Heavy Gauge Virgin", cMat: "Thin Recycled Scrap", safety: "Food Safe Certified", cSafety: "Leaches Metals", verdict: "Daily Driver", cVerdict: "Dents Easily" }
+    },
+    {
+      name: "Shine Basic Tawa",
+      competitor: "Local Market Tawa",
+      std: { price: 599, cPrice: 450, mat: "Thick Base", cMat: "Thin Base", life: "Medium", cLife: "Low" },
+      real: { price: "599Rs", cPrice: "450Rs (Cheap)", mat: "Even Heat Base", cMat: "Warps in 1 Month", safety: "Uniform Cooking", cSafety: "Burns Food", verdict: "Reliable", cVerdict: "Disposable" }
+    },
+    {
+      name: "Shine Steel Bowl Set",
+      competitor: "Wonderchef Bowl Set",
+      std: { price: 799, cPrice: 999, mat: "Mirror Finish", cMat: "Standard Finish", life: "Very High", cLife: "High" },
+      real: { price: "799Rs", cPrice: "999Rs (Brand Tax)", mat: "Double Wall Steel", cMat: "Single Wall", safety: "Cool to Touch", cSafety: "Gets Hot", verdict: "Best Value", cVerdict: "Good but Costly" }
+    },
+    {
+      name: "Shine Non-Stick Pan",
+      competitor: "Hawkins Non-Stick Pan",
+      std: { price: 1299, cPrice: 1499, mat: "5-Layer Coating", cMat: "3-Layer Coating", life: "Very High", cLife: "High" },
+      real: { price: "1299Rs", cPrice: "1499Rs", mat: "German Greblon", cMat: "Standard Teflon", safety: "PFOA Free", cSafety: "Contains PFOA", verdict: "Chef's Choice", cVerdict: "Health Risk?" }
+    },
+    {
+      name: "Shine Pressure Cooker",
+      competitor: "Prestige Pressure Cooker",
+      std: { price: 1599, cPrice: 1799, mat: "Hard Anodized", cMat: "Aluminium", life: "Very High", cLife: "High" },
+      real: { price: "1599Rs", cPrice: "1799Rs", mat: "Tri-Ply Base", cMat: "Single Bottom", safety: "3-Way Safety Valve", cSafety: "Standard Valve", verdict: "Safety First", cVerdict: "Old Tech" }
+    },
+    {
+      name: "Shine Copper Pot",
+      competitor: "Vinod Copper Handi",
+      std: { price: 2999, cPrice: 3299, mat: "Pure Copper", cMat: "Copper Plated", life: "Extreme", cLife: "High" },
+      real: { price: "2999Rs", cPrice: "3299Rs", mat: "99.9% Copper", cMat: "Painted Polish", safety: "Antibacterial", cSafety: "Cosmetic Only", verdict: "Heirloom", cVerdict: "Fake Look" }
+    },
+    {
+      name: "Shine Luxury Set",
+      competitor: "Bergner Cookware Set",
+      std: { price: 5999, cPrice: 8999, mat: "Tri-Ply Body", cMat: "Tri-Ply Body", life: "Extreme", cLife: "Extreme" },
+      real: { price: "5999Rs (Honest)", cPrice: "8999Rs (Import Duty)", mat: "Pakistani Craftsmanship", cMat: "Imported Label", safety: "Same Quality", cSafety: "Same Quality", verdict: "Why Pay More?", cVerdict: "Status Symbol" }
+    }
+  ];
+
+  // --- INIT ---
+  const sSel = document.getElementById("shineSelect");
+  const cSel = document.getElementById("compSelect");
+
+  productsDB.forEach((p, index) => {
+    sSel.innerHTML += `<option value="${index}">${p.name}</option>`;
+  });
+  
+  // Fill competitor dropdown with generic options initially
+  productsDB.forEach((p, index) => {
+    cSel.innerHTML += `<option value="${index}">${p.competitor}</option>`;
+  });
+
+  // --- TOGGLE MODE ---
+  function toggleMode() {
+    const isReal = document.getElementById("neonToggle").checked;
+    const body = document.body;
+    
+    if(isReal) {
+      body.classList.add("neon-mode");
+      document.getElementById("modeLabel").style.display = "none";
+      document.getElementById("neonLabel").style.display = "block";
+      document.getElementById("pageTitle").innerText = "THE UNFILTERED TRUTH";
+      document.getElementById("subtitle").innerText = "See what the brands aren't telling you.";
+    } else {
+      body.classList.remove("neon-mode");
+      document.getElementById("modeLabel").style.display = "block";
+      document.getElementById("neonLabel").style.display = "none";
+      document.getElementById("pageTitle").innerText = "Product Comparison";
+      document.getElementById("subtitle").innerText = "Select products to see the difference.";
+    }
+    
+    document.getElementById("resultCard").classList.add("d-none");
+  }
+
+  // --- COMPARE LOGIC ---
+  function compare() {
+    const idx = sSel.value;
+    const compIdx = cSel.value;
+
+    if(idx === "" || compIdx === "") return alert("Please select both products!");
+
+    // Data for Shine Product
+    const p = productsDB[idx];
+    // Data for Competitor (Using logic: if they pick matching categories, show real comparison. If random, show generic)
+    // For simplicity in this demo, we assume they pick the matching competitor or we force the display of the relevant competitor data based on Shine selection.
+    
+    // Actually, let's use the competitor data from the object based on Shine selection to keep "Real Mode" accurate.
+    const competitorName = productsDB[compIdx].competitor; 
+
+    const isRealMode = document.body.classList.contains("neon-mode");
+    const resultCard = document.getElementById("resultCard");
+    const tbody = document.getElementById("compareBody");
+    
+    tbody.innerHTML = ""; 
+
+    if(isRealMode) {
+      // --- REAL MODE RENDER ---
+      document.getElementById("shineName").innerHTML = `<span class="text-info fw-bold">${p.name}</span>`;
+      document.getElementById("compName").innerHTML = `<span class="text-secondary fw-bold">${productsDB[compIdx].competitor}</span>`;
+
+      // If categories match (idx == compIdx), show detailed. If not, show generic price/mat comparison.
+      let data = (idx == compIdx) ? p.real : { price: p.real.price, cPrice: "Rs???", mat: p.real.mat, cMat: "Standard", safety: p.real.safety, cSafety: "Unknown", verdict: p.real.verdict, cVerdict: "Not Comparable" };
+
+      const rows = [
+        { label: "Price Reality", v1: data.price, v2: data.cPrice },
+        { label: "Material Truth", v1: data.mat, v2: data.cMat },
+        { label: "Health & Safety", v1: data.safety, v2: data.cSafety },
+        { label: "Final Verdict", v1: data.verdict, v2: data.cVerdict }
+      ];
+
+      rows.forEach(r => {
+        tbody.innerHTML += `
+        <tr>
+          <td class="fw-bold text-uppercase" style="color:var(--neon-blue); letter-spacing:1px;">${r.label}</td>
+          <td class="winner-std">${r.v1} <i class="fas fa-check-circle ms-2"></i></td>
+          <td class="loser-std">${r.v2}</td>
+        </tr>`;
+      });
+
+    } else {
+      // --- STANDARD MODE RENDER ---
+      document.getElementById("shineName").innerHTML = `<b>${p.name}</b>`;
+      document.getElementById("compName").innerText = productsDB[compIdx].competitor;
+
+      let data = (idx == compIdx) ? p.std : { price: p.std.price, cPrice: "Rs" + productsDB[compIdx].std.price, mat: p.std.mat, cMat: productsDB[compIdx].std.mat, life: p.std.life, cLife: productsDB[compIdx].std.life };
+
+      const rows = [
+        { label: "Price", v1: "Rs" + data.price, v2: (String(data.cPrice).includes('Rs') ? data.cPrice : "Rs" + data.cPrice) },
+        { label: "Material", v1: data.mat, v2: data.cMat },
+        { label: "Durability", v1: data.life, v2: data.cLife }
+      ];
+
+      rows.forEach(r => {
+        tbody.innerHTML += `
+        <tr>
+          <td class="fw-bold text-muted">${r.label}</td>
+          <td class="winner-std">${r.v1}</td>
+          <td class="loser-std">${r.v2}</td>
+        </tr>`;
+      });
+    }
+
+    resultCard.classList.remove("d-none");
+  }
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

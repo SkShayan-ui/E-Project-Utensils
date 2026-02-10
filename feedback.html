@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Shine Utensils | Feedback</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+body{
+  padding-top:80px;
+  font-family:"Segoe UI",sans-serif;
+  background:#050008;
+  color:#fff;
+  overflow-x:hidden;
+}
+
+/* ===== NAVBAR (IDENTICAL) ===== */
+.custom-navbar{
+  background:linear-gradient(90deg,#b11226,#6a0dad);
+}
+.navbar-nav .nav-link{
+  position:relative;
+  margin-left:12px;
+  font-weight:500;
+  color:#fff;
+}
+.navbar-nav .nav-link::after{
+  content:"";
+  position:absolute;
+  left:0;
+  bottom:-6px;
+  width:0;
+  height:2px;
+  background:#fff;
+  transition:.3s;
+}
+.navbar-nav .nav-link:hover::after,
+.navbar-nav .nav-link.active::after{width:100%;}
+
+   /* ===== PREMIUM NEON LOGO (UPDATED) ===== */
+.nav-logo {
+  height: 40px;  /* INCREASED SIZE: Adjust this number if you want it even bigger */
+  width: auto;   /* Keeps the logo from getting squashed */
+  margin-right: 15px;
+  object-fit: contain;
+  
+  /* 1. Neon Glow: This only looks good if your image has a TRANSPARENT background */
+  filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.9)) 
+          drop-shadow(0 0 10px rgba(188, 19, 254, 0.8));
+  
+  /* 2. Floating Animation */
+  animation: logoFloat 3s ease-in-out infinite;
+  transition: transform 0.3s ease;
+}
+
+/* Hover Effect: slight zoom */
+.navbar-brand:hover .nav-logo {
+  transform: scale(1.1); 
+  filter: drop-shadow(0 0 5px rgba(255, 255, 255, 1)) 
+          drop-shadow(0 0 20px rgba(188, 19, 254, 1));
+}
+
+/* Floating Keyframes */
+@keyframes logoFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+/* Adjust Navbar Brand text to align with bigger logo */
+.navbar-brand {
+  font-size: 1.5rem; /* Makes text slightly bigger to match logo */
+  display: flex;
+  align-items: center;
+}
+
+/* ===== PAGE TITLE ===== */
+.neon-title{
+  text-align:center;
+  font-size:2.8rem;
+  font-weight:800;
+  margin-bottom:40px;
+  text-shadow:0 0 20px #ff004f,0 0 50px #6a0dad;
+}
+
+/* ===== FEEDBACK FORM ===== */
+.feedback-card{
+  background:rgba(0,0,0,.7);
+  border-radius:22px;
+  padding:30px;
+  box-shadow:0 0 40px rgba(255,0,255,.35);
+}
+.star{
+  font-size:2rem;
+  color:#444;
+  cursor:pointer;
+}
+.star.active{
+  color:#ffc107;
+  text-shadow:0 0 10px #ffc107;
+}
+
+/* ===== FLOATING REVIEWS ===== */
+.review-space{
+  position:relative;
+  height:420px;
+}
+.review-card{
+  position:absolute;
+  width:260px;
+  background:rgba(0,0,0,.65);
+  border-radius:18px;
+  padding:18px;
+  box-shadow:0 0 25px rgba(106,13,173,.5);
+  animation:float 10s ease-in-out infinite;
+}
+.review-stars{
+  color:#ffc107;
+  text-shadow:0 0 8px #ffc107;
+}
+
+/* Floating animation */
+@keyframes float{
+  0%{transform:translateY(0)}
+  50%{transform:translateY(-20px)}
+  100%{transform:translateY(0)}
+}
+
+footer{
+  background:linear-gradient(90deg,#6a0dad,#b11226);
+  padding:30px;
+  margin-top:80px;
+  text-align:center;
+}
+</style>
+</head>
+
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark custom-navbar fixed-top">
+  <div class="container-fluid px-4"> 
+    
+    <a class="navbar-brand fw-bold d-flex align-items-center" href="index.html">
+      <img src="logo.png" alt="Logo" class="nav-logo">
+      Shine Utensils
+    </a>
+
+    <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navMenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0 nav-animated">
+        <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="Products.html">Products</a></li>
+        <li class="nav-item"><a class="nav-link" href="categories.html">Categories</a></li>
+        <li class="nav-item"><a class="nav-link" href="specifications.html">Specifications</a></li>
+        <li class="nav-item"><a class="nav-link" href="offers.html">Offers</a></li>
+        <li class="nav-item"><a class="nav-link" href="comparison.html">Comparison</a></li>
+        <li class="nav-item"><a class="nav-link" href="cart.html">Cart</a></li>
+        <li class="nav-item"><a class="nav-link" href="checkout.html">Checkout</a></li>
+        <li class="nav-item"><a class="nav-link active" href="#">Feedback</a></li>
+        <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container">
+<h1 class="neon-title">What Our Customers Say</h1>
+
+<div class="row g-4">
+<!-- FORM -->
+<div class="col-md-4">
+<div class="feedback-card">
+<input id="name" class="form-control mb-2" placeholder="Your Name">
+<div class="mb-2">
+<span class="star" onclick="rate(1)">★</span>
+<span class="star" onclick="rate(2)">★</span>
+<span class="star" onclick="rate(3)">★</span>
+<span class="star" onclick="rate(4)">★</span>
+<span class="star" onclick="rate(5)">★</span>
+</div>
+<textarea id="message" class="form-control mb-3" rows="4" placeholder="Share your experience..."></textarea>
+<button class="btn btn-danger w-100" onclick="submitFeedback()">Submit Feedback</button>
+</div>
+</div>
+
+<!-- FLOATING REVIEWS -->
+<div class="col-md-8">
+<div class="review-space" id="reviewSpace"></div>
+</div>
+</div>
+</div>
+
+<footer>© 2026 Shine Utensils</footer>
+
+<script>
+let rating=0;
+
+/* BUILT-IN REVIEWS (PREVIOUS CUSTOMERS) */
+const baseReviews=[
+{name:"Ali R.",rating:5,msg:"Premium quality utensils. Totally worth it."},
+{name:"Sara K.",rating:4,msg:"Fast delivery and amazing finish."},
+{name:"Usman H.",rating:5,msg:"Feels luxury. Way better than competitors."},
+{name:"Ayesha M.",rating:4,msg:"Checkout discounts were a nice surprise."},
+{name:"Hamza T.",rating:5,msg:"Heavy, durable and elegant design."}
+];
+
+function rate(v){
+rating=v;
+document.querySelectorAll(".star").forEach((s,i)=>s.classList.toggle("active",i<v));
+}
+
+function render(){
+const stored=JSON.parse(localStorage.getItem("feedbacks"))||[];
+const all=[...baseReviews,...stored];
+const space=document.getElementById("reviewSpace");
+space.innerHTML="";
+
+all.forEach((r,i)=>{
+const card=document.createElement("div");
+card.className="review-card";
+card.style.left=(i%3)*280+"px";
+card.style.top=(Math.floor(i/3)*140)+"px";
+card.style.animationDelay=(i*0.6)+"s";
+card.innerHTML=`
+<strong>${r.name}</strong>
+<div class="review-stars">${"★".repeat(r.rating)}</div>
+<p>${r.msg||r.message}</p>`;
+space.appendChild(card);
+});
+}
+
+function submitFeedback(){
+if(!message.value||rating===0)return alert("Add rating & message");
+const f=JSON.parse(localStorage.getItem("feedbacks"))||[];
+f.unshift({name:name.value||"Anonymous",rating,message:message.value});
+localStorage.setItem("feedbacks",JSON.stringify(f));
+message.value="";rating=0;
+document.querySelectorAll(".star").forEach(s=>s.classList.remove("active"));
+render();
+}
+
+render();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Shine Utensils | Dynamic Cart</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+
+  <style>
+    /* GLOBAL NEON VARIABLES */
+    :root {
+      --primary-grad: linear-gradient(90deg, #b11226, #6a0dad);
+      --bg-color: #050505;
+      --card-bg: rgba(20, 20, 20, 0.6);
+      --text-color: #e0e0e0;
+      
+      /* NEON PALETTE */
+      --neon-purple: #bc13fe;
+      --neon-red: #ff073a;
+      --neon-blue: #00f3ff;
+      --neon-green: #39ff14;
+      --neon-yellow: #ffeb3b;
+      --glass-border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    body {
+      padding-top: 80px;
+      font-family: "Segoe UI", sans-serif;
+      background: var(--bg-color);
+      color: var(--text-color);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    /* ===== NAVBAR (UNTOUCHED) ===== */
+    .custom-navbar {
+      background: linear-gradient(90deg, #b11226, #6a0dad);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    .navbar-nav .nav-link {
+      position: relative;
+      margin-left: 12px;
+      font-weight: 500;
+      color: #fff !important;
+      transition: all 0.3s ease;
+    }
+    .navbar-nav .nav-link::after {
+      content: ""; position: absolute; left: 0; bottom: -6px; width: 0%; height: 2px; background: #fff; transition: width 0.3s ease;
+    }
+    .navbar-nav .nav-link:hover::after, .navbar-nav .nav-link.active::after { width: 100%; }
+
+       /* ===== PREMIUM NEON LOGO (UPDATED) ===== */
+.nav-logo {
+  height: 40px;  /* INCREASED SIZE: Adjust this number if you want it even bigger */
+  width: auto;   /* Keeps the logo from getting squashed */
+  margin-right: 15px;
+  object-fit: contain;
+  
+  /* 1. Neon Glow: This only looks good if your image has a TRANSPARENT background */
+  filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.9)) 
+          drop-shadow(0 0 10px rgba(188, 19, 254, 0.8));
+  
+  /* 2. Floating Animation */
+  animation: logoFloat 3s ease-in-out infinite;
+  transition: transform 0.3s ease;
+}
+
+/* Hover Effect: slight zoom */
+.navbar-brand:hover .nav-logo {
+  transform: scale(1.1); 
+  filter: drop-shadow(0 0 5px rgba(255, 255, 255, 1)) 
+          drop-shadow(0 0 20px rgba(188, 19, 254, 1));
+}
+
+/* Floating Keyframes */
+@keyframes logoFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+/* Adjust Navbar Brand text to align with bigger logo */
+.navbar-brand {
+  font-size: 1.5rem; /* Makes text slightly bigger to match logo */
+  display: flex;
+  align-items: center;
+}
+
+    /* ===== GLASS CART CONTAINERS ===== */
+    .cart-container { margin-top: 40px; }
+    
+    .glass-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(15px);
+      border: var(--glass-border);
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: 0 0 30px rgba(188, 19, 254, 0.1);
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 30px;
+    }
+
+    /* Table Styles */
+    .table { color: #fff; vertical-align: middle; }
+    .table thead th {
+      background: rgba(188, 19, 254, 0.1);
+      color: var(--neon-blue);
+      border-bottom: 2px solid var(--neon-purple);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 15px;
+    }
+    .table tbody td { border-bottom: 1px solid rgba(255,255,255,0.05); padding: 20px 15px; }
+
+    /* Qty Control */
+    .qty-btn {
+      background: transparent;
+      border: 1px solid var(--neon-purple);
+      color: #fff;
+      width: 30px; height: 30px;
+      border-radius: 50%;
+      transition: 0.3s;
+    }
+    .qty-btn:hover { background: var(--neon-purple); box-shadow: 0 0 10px var(--neon-purple); }
+
+    /* ===== SMART SECTIONS (ANIMATED) ===== */
+    .smart-section {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .smart-section.show {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .section-title {
+        font-weight: 700;
+        color: var(--neon-blue);
+        text-shadow: 0 0 10px rgba(0, 243, 255, 0.3);
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+    }
+
+    /* 1. Rotating Insight Card */
+    .payment-insight-card {
+        background: rgba(57, 255, 20, 0.05);
+        border: 1px solid var(--neon-green);
+        padding: 20px;
+        border-radius: 15px;
+        display: flex;
+        align-items: center;
+        min-height: 100px;
+        position: relative;
+    }
+    
+    .insight-content {
+        transition: opacity 0.5s ease-in-out;
+    }
+    .insight-content.fade-out { opacity: 0; }
+
+    .insight-icon {
+        font-size: 2.5rem;
+        color: var(--neon-green);
+        margin-right: 20px;
+        filter: drop-shadow(0 0 10px var(--neon-green));
+    }
+
+    /* 2. Daily Flash Sale Card */
+    .flash-sale-card {
+        background: linear-gradient(135deg, rgba(188, 19, 254, 0.2), rgba(255, 7, 58, 0.2));
+        border: 1px solid var(--neon-red);
+        border-radius: 15px;
+        padding: 20px;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    /* --- FIX: BADGE POSITIONING --- */
+    .day-badge {
+        position: absolute;
+        top: 0;           /* Stick to top */
+        right: 0;         /* Stick to right */
+        background: var(--neon-red);
+        color: white;
+        padding: 6px 15px;
+        border-bottom-left-radius: 15px; /* Rounded inner corner */
+        font-size: 0.8rem;
+        font-weight: bold;
+        z-index: 2;
+        box-shadow: -2px 2px 10px rgba(0,0,0,0.3);
+    }
+
+    .btn-claim-offer {
+        background: #fff;
+        color: #000;
+        border: none;
+        padding: 8px 20px;
+        border-radius: 30px;
+        font-weight: bold;
+        margin-top: 10px;
+        transition: 0.3s;
+    }
+    .btn-claim-offer:hover {
+        background: var(--neon-blue);
+        box-shadow: 0 0 20px var(--neon-blue);
+    }
+    .btn-claim-offer:disabled {
+        background: #555;
+        color: #ccc;
+        cursor: not-allowed;
+    }
+
+    /* 3. Rec Card */
+    .rec-card {
+        background: rgba(255,255,255,0.05);
+        border: 1px solid var(--neon-purple);
+        padding: 15px;
+        border-radius: 15px;
+        text-align: center;
+        transition: 0.3s;
+    }
+    .rec-card:hover { border-color: var(--neon-blue); box-shadow: 0 0 15px rgba(0,243,255,0.3); }
+    .rec-img { width: 70px; height: 70px; object-fit: contain; margin-bottom: 10px; }
+    .btn-rec-add { background: transparent; border: 1px solid var(--neon-blue); color: var(--neon-blue); border-radius: 20px; font-size: 0.8rem; padding: 4px 12px; transition:0.3s; }
+    .btn-rec-add:hover { background: var(--neon-blue); color:#000; }
+
+    /* ===== PAYMENT & OFFERS SECTION ===== */
+    .payment-select-btn {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--neon-blue);
+      color: #fff;
+      width: 100%;
+      padding: 15px;
+      border-radius: 12px;
+      text-align: left;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: 0.3s;
+    }
+    .payment-select-btn:hover { background: rgba(0, 243, 255, 0.1); box-shadow: 0 0 15px rgba(0, 243, 255, 0.2); }
+
+    .offers-drawer {
+      max-height: 0;
+      overflow: auto;
+      transition: max-height 0.5s ease-out;
+      margin-top: 10px;
+    }
+    .offers-drawer.open { max-height: 600px; transition: max-height 0.5s ease-in; }
+    
+    .offer-option {
+      background: rgba(0,0,0,0.4);
+      border: 1px solid #333;
+      padding: 12px;
+      border-radius: 10px;
+      margin-bottom: 10px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      transition: 0.3s;
+    }
+    .offer-option:hover { border-color: var(--neon-green); }
+    .offer-option.selected {
+      border-color: var(--neon-green);
+      background: rgba(57, 255, 20, 0.1);
+      box-shadow: 0 0 10px rgba(57, 255, 20, 0.2);
+    }
+
+    .bank-logo { font-size: 1.5rem; margin-right: 15px; width: 40px; text-align: center; }
+
+    /* Summary Totals */
+    .summary-row { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 0.95rem; }
+    .total-row { font-size: 1.5rem; color: var(--neon-green); font-weight: bold; border-top: 1px solid #333; padding-top: 15px; margin-top: 15px; }
+
+    .discount-label { font-size: 0.85rem; }
+
+    /* Checkout Button */
+    .btn-checkout {
+      background: transparent;
+      border: 2px solid var(--neon-purple);
+      color: #fff;
+      width: 100%;
+      padding: 15px;
+      border-radius: 50px;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-top: 20px;
+      transition: 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+    .btn-checkout:hover { box-shadow: 0 0 30px var(--neon-purple); background: var(--neon-purple); }
+
+    /* ===== FOOTER (UNTOUCHED) ===== */
+    footer {
+      background: linear-gradient(90deg, #6a0dad, #b11226);
+      color: #fff;
+      padding: 40px 0;
+      margin-top: auto;
+    }
+  </style>
+</head>
+
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark custom-navbar fixed-top">
+  <div class="container-fluid px-4"> 
+    
+    <a class="navbar-brand fw-bold d-flex align-items-center" href="index.html">
+      <img src="logo.png" alt="Logo" class="nav-logo">
+      Shine Utensils
+    </a>
+
+    <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navMenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0 nav-animated">
+        <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="Products.html">Products</a></li>
+        <li class="nav-item"><a class="nav-link" href="categories.html">Categories</a></li>
+        <li class="nav-item"><a class="nav-link" href="specifications.html">Specifications</a></li>
+        <li class="nav-item"><a class="nav-link" href="offers.html">Offers</a></li>
+        <li class="nav-item"><a class="nav-link" href="comparison.html">Comparison</a></li>
+        <li class="nav-item"><a class="nav-link active" href="#">Cart</a></li>
+        <li class="nav-item"><a class="nav-link" href="checkout.html">Checkout</a></li>
+        <li class="nav-item"><a class="nav-link" href="feedback.html">Feedback</a></li>
+        <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container cart-container">
+  <div class="row g-4">
+    
+    <div class="col-lg-8">
+      <h3 class="fw-bold mb-4 text-white" style="text-shadow: 0 0 10px var(--neon-purple);">
+        <i class="fas fa-shopping-cart me-2"></i> Your Cart
+      </h3>
+      
+      <div class="glass-card mb-5">
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Item</th>
+                <th>Price</th>
+                <th>Qty</th>
+                <th>Total</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="cartItems">
+              </tbody>
+          </table>
+        </div>
+        
+        <div id="emptyMsg" class="text-center py-5 d-none">
+          <h5 class="text-muted">Cart Empty. System Standby.</h5>
+          <a href="products.html" class="btn btn-outline-light mt-3 rounded-pill">Browse Catalog</a>
+        </div>
+      </div>
+
+      <div class="smart-section mb-4" id="insightSection">
+          <h4 class="section-title"><i class="fas fa-brain"></i> Savings Insight</h4>
+          <div class="payment-insight-card">
+              <i class="fas fa-lightbulb insight-icon"></i>
+              <div class="insight-content" id="insightContent">
+                  <h5 class="fw-bold mb-1" id="insightTitle">Analyzing Cart...</h5>
+                  <p class="mb-0 text-white-50" id="insightText">Please wait while we check offers.</p>
+              </div>
+          </div>
+      </div>
+
+      <div class="smart-section mb-4" id="salesSection" style="transition-delay: 0.2s;">
+          <h4 class="section-title"><i class="fas fa-bolt"></i> Today's Exclusive</h4>
+          <div class="flash-sale-card" id="dailyOfferCard">
+              <div class="day-badge" id="dayBadge">TODAY</div>
+              <div class="d-flex align-items-center justify-content-between">
+                  <div style="padding-right: 20px;">
+                      <h4 class="fw-bold mb-1 text-white" id="offerTitle">Checking Calendar...</h4>
+                      <p class="mb-0 text-white-50" id="offerDesc">Loading daily specials...</p>
+                  </div>
+                  <div class="text-end mt-4">
+                      <h3 class="fw-bold text-neon-yellow mb-0" id="offerPercent">--%</h3>
+                      <button class="btn-claim-offer" id="claimBtn" onclick="applyDailyOffer()">Claim Offer</button>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+       <div class="smart-section" id="recSection" style="transition-delay: 0.4s;">
+          <h4 class="section-title"><i class="fas fa-layer-group"></i> Smart Add-ons</h4>
+          <div class="row g-3">
+              <div class="col-md-4 col-6">
+                  <div class="rec-card">
+                      <img src="https://majesticchef.pk/cdn/shop/files/Majestic-mirror-Cooker.jpg" class="rec-img" alt="Cooker">
+                      <h6 class="mb-1 text-truncate">Pressure Cooker</h6>
+                      <small class="text-neon-blue">Rs 1,599</small>
+                      <button class="btn-rec-add w-100" onclick="addRecItem('Pressure Cooker', 1599)">Add</button>
+                  </div>
+              </div>
+              <div class="col-md-4 col-6">
+                  <div class="rec-card">
+                      <img src="https://klassickitchenware.com/cdn/shop/files/Aluminum-Metal-Finish-tawa.webp" class="rec-img" alt="Tawa">
+                      <h6 class="mb-1 text-truncate">Basic Tawa</h6>
+                      <small class="text-neon-blue">Rs 599</small>
+                      <button class="btn-rec-add w-100" onclick="addRecItem('Basic Tawa', 599)">Add</button>
+                  </div>
+              </div>
+              <div class="col-md-4 d-none d-md-block">
+                  <div class="rec-card">
+                      <img src="https://mycoconutworld.com/cdn/shop/products/2826_1_1000x.jpg" class="rec-img" alt="Bowls">
+                      <h6 class="mb-1 text-truncate">Steel Bowl Set</h6>
+                      <small class="text-neon-blue">Rs 799</small>
+                      <button class="btn-rec-add w-100" onclick="addRecItem('Steel Bowl Set', 799)">Add</button>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+    </div>
+
+    <div class="col-lg-4">
+      <h3 class="fw-bold mb-4 text-white" style="text-shadow: 0 0 10px var(--neon-blue);">Summary</h3>
+      
+      <div class="glass-card" style="position: sticky; top: 100px;">
+        
+        <label class="small text-uppercase fw-bold text-muted mb-3" style="letter-spacing: 1px;">Payment Method</label>
+        <button class="payment-select-btn" onclick="toggleOffers()" id="paymentBtn">
+          <span><i class="fas fa-wallet me-2"></i> Choose Bank / Wallet</span>
+          <i class="fas fa-chevron-down"></i>
+        </button>
+
+        <div class="offers-drawer" id="offersDrawer">
+          <p class="small text-muted mt-3 mb-2">Select to Apply Discount:</p>
+          
+          <div class="offer-option" onclick="applyBankOffer('hbl', 15, 'HBL Bank', 3000)">
+            <div class="bank-logo text-success"><i class="fas fa-university"></i></div>
+            <div><h6 class="mb-0 fw-bold">HBL Bank</h6><small class="text-white-50">15% Off (Min Rs 3k)</small></div>
+          </div>
+          
+          <div class="offer-option" onclick="applyBankOffer('ubl', 15, 'UBL Bank')">
+            <div class="bank-logo text-primary"><i class="fas fa-university"></i></div>
+            <div><h6 class="mb-0 fw-bold">UBL Bank</h6><small class="text-white-50">15% Off (All Items)</small></div>
+          </div>
+
+           <div class="offer-option" onclick="applyBankOffer('meezan', 10, 'Meezan Bank')">
+            <div class="bank-logo text-info"><i class="fas fa-university"></i></div>
+            <div><h6 class="mb-0 fw-bold">Meezan Bank</h6><small class="text-white-50">10% Off (Islamic)</small></div>
+          </div>
+
+          <div class="offer-option" onclick="applyBankOffer('habib', 12, 'Bank Al Habib')">
+            <div class="bank-logo text-warning"><i class="fas fa-university"></i></div>
+            <div><h6 class="mb-0 fw-bold">Bank Al Habib</h6><small class="text-white-50">12% Off</small></div>
+          </div>
+
+          <div class="offer-option" onclick="applyBankOffer('easypaisa', 20, 'EasyPaisa')">
+            <div class="bank-logo text-success"><i class="fas fa-mobile-alt"></i></div>
+            <div><h6 class="mb-0 fw-bold">EasyPaisa</h6><small class="text-white-50">20% Off</small></div>
+          </div>
+
+          <div class="offer-option" onclick="applyBankOffer('jazz', 18, 'JazzCash')">
+            <div class="bank-logo text-danger"><i class="fas fa-mobile-alt"></i></div>
+            <div><h6 class="mb-0 fw-bold">JazzCash</h6><small class="text-white-50">18% Flat Disc.</small></div>
+          </div>
+
+          <div class="offer-option" onclick="applyBankOffer('naya', 25, 'NayaPay')">
+            <div class="bank-logo text-neon-yellow"><i class="fas fa-wallet"></i></div>
+            <div><h6 class="mb-0 fw-bold">NayaPay</h6><small class="text-white-50">25% Off</small></div>
+          </div>
+        </div>
+
+        <hr class="border-secondary my-4">
+
+        <div class="summary-row">
+          <span>Subtotal</span>
+          <span id="subTotal">Rs 0</span>
+        </div>
+        
+        <div class="summary-row text-neon-yellow d-none" id="dailyDiscRow">
+          <span class="discount-label"><i class="fas fa-star me-2"></i>Daily Offer</span>
+          <span id="dailyDiscVal">- Rs 0</span>
+        </div>
+
+        <div class="summary-row text-neon-green d-none" id="bankDiscRow">
+          <span class="discount-label"><i class="fas fa-credit-card me-2"></i><span id="bankNameDisp">Bank</span></span>
+          <span id="bankDiscVal">- Rs 0</span>
+        </div>
+
+        <div class="summary-row total-row">
+          <span>Total</span>
+          <span id="grandTotal">Rs 0</span>
+        </div>
+
+        <a href="checkout.html" class="btn-checkout text-decoration-none text-center d-block">
+  Checkout <i class="fas fa-arrow-right ms-2"></i>
+</a>
+        <button class="btn btn-sm btn-outline-secondary w-100 mt-3 rounded-pill" onclick="clearCart()">Reset System</button>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="text-center">
+  <div class="container">
+      <h4 class="fw-bold">Shine Utensils</h4>
+      <p class="small opacity-75">Future of Cooking.</p>
+      <div class="mt-3">
+        <a href="#"><i class="fab fa-instagram mx-2 text-white"></i></a>
+        <a href="#"><i class="fab fa-facebook mx-2 text-white"></i></a>
+        <a href="#"><i class="fab fa-twitter mx-2 text-white"></i></a>
+      </div>
+      <p class="mt-4 mb-0 small opacity-50">© 2026 Shine Utensils.</p>
+  </div>
+</footer>
+
+
+<script>
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+  let subTotal = 0;
+  
+  // State for Discounts
+  let dailyOfferApplied = false;
+  let dailyOfferPercent = 0;
+  let bankOfferPercent = 0;
+  let bankMinSpend = 0;
+  let bankName = "";
+
+  // Category Keywords for Day Logic
+  const CATEGORIES = {
+      economy: ["Plate", "Bowl", "Tawa", "Aluminium"],
+      standard: ["Non-Stick", "Pressure", "Saucepan", "Induction"],
+      premium: ["Copper", "Luxury", "Hard Anodized", "Chef"]
+  };
+
+  // --- 1. RENDER & INIT ---
+  function renderCart() {
+    const tbody = document.getElementById("cartItems");
+    const emptyMsg = document.getElementById("emptyMsg");
+    tbody.innerHTML = "";
+    subTotal = 0;
+
+    if(cart.length === 0) {
+      emptyMsg.classList.remove("d-none");
+      document.querySelectorAll('.smart-section').forEach(el => el.classList.remove('show'));
+    } else {
+      emptyMsg.classList.add("d-none");
+      setTimeout(() => document.querySelectorAll('.smart-section').forEach(el => el.classList.add('show')), 100);
+
+      cart.forEach((item, i) => {
+        if(!item.qty) item.qty = 1;
+        let total = item.price * item.qty;
+        subTotal += total;
+
+        tbody.innerHTML += `
+          <tr>
+            <td class="fw-bold">${item.name}</td>
+            <td>Rs ${item.price.toLocaleString()}</td>
+            <td>
+              <button class="qty-btn" onclick="updateQty(${i},-1)">-</button>
+              <span class="mx-2">${item.qty}</span>
+              <button class="qty-btn" onclick="updateQty(${i},1)">+</button>
+            </td>
+            <td class="text-info">Rs ${total.toLocaleString()}</td>
+            <td><button class="btn btn-sm text-secondary" onclick="removeItem(${i})"><i class="fas fa-times"></i></button></td>
+          </tr>
+        `;
+      });
+    }
+
+    calculateFinal();
+  }
+
+  // --- 2. DAILY OFFER LOGIC (REAL TIME) ---
+  const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+  const today = new Date();
+  const dayName = days[today.getDay()];
+  
+  let todaysCategory = "";
+  let todaysDiscount = 0;
+
+  // Determine Today's Offer
+  if(dayName === "Monday") {
+      todaysCategory = "Economy Range"; todaysDiscount = 30;
+  } else if(dayName === "Wednesday") {
+      todaysCategory = "Standard Cookware"; todaysDiscount = 20;
+  } else if(dayName === "Saturday" || dayName === "Sunday") {
+      todaysCategory = "Premium Collection"; todaysDiscount = 15;
+  } else {
+      todaysCategory = "Online Exclusive"; todaysDiscount = 10;
+  }
+
+  // Update UI for Day
+  document.getElementById("dayBadge").innerText = dayName.toUpperCase();
+  document.getElementById("offerTitle").innerText = `${todaysCategory} Sale`;
+  document.getElementById("offerDesc").innerText = `Get flat ${todaysDiscount}% off on eligible items!`;
+  document.getElementById("offerPercent").innerText = `${todaysDiscount}%`;
+
+  function applyDailyOffer() {
+      if(cart.length === 0) return alert("Cart is empty!");
+      dailyOfferApplied = true;
+      dailyOfferPercent = todaysDiscount;
+      document.getElementById("claimBtn").innerText = "Applied!";
+      document.getElementById("claimBtn").disabled = true;
+      calculateFinal();
+  }
+
+  // --- 3. BANK OFFER LOGIC ---
+  function applyBankOffer(code, percent, name, min = 0) {
+      bankOfferPercent = percent;
+      bankName = name;
+      bankMinSpend = min;
+      
+      document.getElementById("paymentBtn").innerHTML = `<span><i class="fas fa-check-circle text-success me-2"></i> ${name}</span>`;
+      document.getElementById("offersDrawer").classList.remove("open");
+      
+      calculateFinal();
+  }
+
+  // --- 4. CALCULATION ENGINE (STACKING) ---
+  function calculateFinal() {
+      document.getElementById("subTotal").innerText = `Rs ${subTotal.toLocaleString()}`;
+
+      // A. Calculate Daily Discount (Item Level Approximation)
+      let dailyDiscVal = 0;
+      if(dailyOfferApplied) {
+          // If general day, apply to all. If specific day, try to match keywords.
+          if(todaysCategory === "Online Exclusive") {
+              dailyDiscVal = subTotal * 0.10;
+          } else {
+              // Targeted discount logic
+              let keywords = [];
+              if(todaysCategory.includes("Economy")) keywords = CATEGORIES.economy;
+              if(todaysCategory.includes("Standard")) keywords = CATEGORIES.standard;
+              if(todaysCategory.includes("Premium")) keywords = CATEGORIES.premium;
+              
+              cart.forEach(item => {
+                  const match = keywords.some(k => item.name.includes(k));
+                  if(match) dailyDiscVal += (item.price * item.qty) * (todaysDiscount / 100);
+              });
+              
+              // Fallback if no specific items found but button clicked, give flat 5% courtesy
+              if(dailyDiscVal === 0 && subTotal > 0) dailyDiscVal = subTotal * 0.05; 
+          }
+      }
+
+      // Display Daily Discount
+      const dailyRow = document.getElementById("dailyDiscRow");
+      if(dailyDiscVal > 0) {
+          dailyRow.classList.remove("d-none");
+          document.getElementById("dailyDiscVal").innerText = `- Rs ${Math.round(dailyDiscVal).toLocaleString()}`;
+      } else {
+          dailyRow.classList.add("d-none");
+      }
+
+      // B. Calculate Bank Discount (On Remaining Total or Subtotal? Usually Subtotal)
+      let bankDiscVal = 0;
+      if(bankOfferPercent > 0) {
+          if(subTotal >= bankMinSpend) {
+              bankDiscVal = subTotal * (bankOfferPercent / 100);
+          } else {
+              // Warning handled in insights or alert?
+          }
+      }
+
+      // Display Bank Discount
+      const bankRow = document.getElementById("bankDiscRow");
+      if(bankDiscVal > 0) {
+          bankRow.classList.remove("d-none");
+          document.getElementById("bankNameDisp").innerText = bankName;
+          document.getElementById("bankDiscVal").innerText = `- Rs ${Math.round(bankDiscVal).toLocaleString()}`;
+      } else {
+          bankRow.classList.add("d-none");
+      }
+
+      // Final Total
+      const grandTotal = subTotal - dailyDiscVal - bankDiscVal;
+      document.getElementById("grandTotal").innerText = `Rs ${Math.max(0, Math.round(grandTotal)).toLocaleString()}`;
+  }
+
+  // --- 5. SMART INSIGHT ROTATOR ---
+  const insightContent = document.getElementById("insightContent");
+  const iTitle = document.getElementById("insightTitle");
+  const iText = document.getElementById("insightText");
+
+  const insights = [
+      () => ({ t: "Bank Offer Alert", d: "Use NayaPay for a massive 25% discount on this order!" }),
+      () => ({ t: `It's ${dayName}!`, d: `Don't forget to claim your ${todaysDiscount}% ${todaysCategory} discount.` }),
+      () => ({ t: "Spend & Save", d: subTotal < 3000 ? `Add Rs ${(3000 - subTotal).toLocaleString()} more to unlock HBL 15% Off.` : "You've unlocked HBL 15% Discount!" }),
+      () => ({ t: "Did you know?", d: "You can stack Bank Discounts on top of Daily Sales!" })
+  ];
+
+  let insightIdx = 0;
+  setInterval(() => {
+      insightContent.classList.add("fade-out");
+      setTimeout(() => {
+          const data = insights[insightIdx]();
+          iTitle.innerText = data.t;
+          iText.innerText = data.d;
+          insightContent.classList.remove("fade-out");
+          insightIdx = (insightIdx + 1) % insights.length;
+      }, 500);
+  }, 8000); // Rotates every 8 seconds
+
+  // --- HELPERS ---
+  function toggleOffers() { document.getElementById("offersDrawer").classList.toggle("open"); }
+  
+  function updateQty(i, d) {
+    cart[i].qty += d;
+    if(cart[i].qty < 1) cart[i].qty = 1;
+    save();
+  }
+
+  function removeItem(i) {
+    cart.splice(i, 1);
+    save();
+  }
+
+  function clearCart() {
+    cart = [];
+    dailyOfferApplied = false;
+    bankOfferPercent = 0;
+    save();
+    document.getElementById("claimBtn").innerText = "Claim Offer";
+    document.getElementById("claimBtn").disabled = false;
+    document.getElementById("paymentBtn").innerHTML = `<span><i class="fas fa-wallet me-2"></i> Choose Bank / Wallet</span> <i class="fas fa-chevron-down"></i>`;
+  }
+
+  function addRecItem(name, price) {
+      const exists = cart.find(i => i.name === name);
+      if(exists) exists.qty++;
+      else cart.push({name, price, qty: 1});
+      save();
+  }
+
+  function save() {
+      localStorage.setItem("cart", JSON.stringify(cart));
+      renderCart();
+  }
+
+  renderCart();
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

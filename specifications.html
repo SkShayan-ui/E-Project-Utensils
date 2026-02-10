@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Shine Utensils | Specifications</title>
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+
+  <style>
+    body {
+      padding-top: 80px;
+      font-family: "Segoe UI", sans-serif;
+      background: #f4f6f8;
+    }
+
+    /* ===== IDENTICAL NAVBAR ===== */
+    .custom-navbar {
+      background: linear-gradient(90deg, #b11226, #6a0dad);
+    }
+
+    .navbar-nav .nav-link {
+      position: relative;
+      margin-left: 12px;
+      font-weight: 500;
+      color: #fff;
+      transition: all 0.3s ease;
+    }
+
+    .navbar-nav .nav-link::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -6px;
+      width: 0%;
+      height: 2px;
+      background: #fff;
+      transition: width 0.3s ease;
+    }
+
+    .navbar-nav .nav-link:hover::after,
+    .navbar-nav .nav-link.active::after {
+      width: 100%;
+    }
+
+    .navbar-nav .nav-link:hover {
+      transform: translateY(-2px);
+    }
+
+       /* ===== PREMIUM NEON LOGO (UPDATED) ===== */
+.nav-logo {
+  height: 40px;  /* INCREASED SIZE: Adjust this number if you want it even bigger */
+  width: auto;   /* Keeps the logo from getting squashed */
+  margin-right: 15px;
+  object-fit: contain;
+  
+  /* 1. Neon Glow: This only looks good if your image has a TRANSPARENT background */
+  filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.9)) 
+          drop-shadow(0 0 10px rgba(188, 19, 254, 0.8));
+  
+  /* 2. Floating Animation */
+  animation: logoFloat 3s ease-in-out infinite;
+  transition: transform 0.3s ease;
+}
+
+/* Hover Effect: slight zoom */
+.navbar-brand:hover .nav-logo {
+  transform: scale(1.1); 
+  filter: drop-shadow(0 0 5px rgba(255, 255, 255, 1)) 
+          drop-shadow(0 0 20px rgba(188, 19, 254, 1));
+}
+
+/* Floating Keyframes */
+@keyframes logoFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+/* Adjust Navbar Brand text to align with bigger logo */
+.navbar-brand {
+  font-size: 1.5rem; /* Makes text slightly bigger to match logo */
+  display: flex;
+  align-items: center;
+}
+
+    /* ===== SPEC CARD ===== */
+    .spec-card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 25px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      background: linear-gradient(90deg, #6a0dad, #b11226);
+      color: #fff;
+      padding: 30px 0;
+      margin-top: 60px;
+    }
+
+    footer a {
+      color: #fff;
+      margin: 0 10px;
+      font-size: 20px;
+    }
+  </style>
+</head>
+
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark custom-navbar fixed-top">
+  <div class="container-fluid px-4"> 
+    
+    <a class="navbar-brand fw-bold d-flex align-items-center" href="index.html">
+      <img src="logo.png" alt="Logo" class="nav-logo">
+      Shine Utensils
+    </a>
+
+    <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navMenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0 nav-animated">
+        <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="Products.html">Products</a></li>
+        <li class="nav-item"><a class="nav-link" href="categories.html">Categories</a></li>
+        <li class="nav-item"><a class="nav-link active" href="#">Specifications</a></li>
+        <li class="nav-item"><a class="nav-link" href="offers.html">Offers</a></li>
+        <li class="nav-item"><a class="nav-link" href="comparison.html">Comparison</a></li>
+        <li class="nav-item"><a class="nav-link" href="cart.html">Cart</a></li>
+        <li class="nav-item"><a class="nav-link" href="checkout.html">Checkout</a></li>
+        <li class="nav-item"><a class="nav-link" href="feedback.html">Feedback</a></li>
+        <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- CONTENT -->
+<div class="container">
+  <h2 class="fw-bold mb-4">Product Specifications</h2>
+
+  <div class="spec-card mb-4">
+    <label class="form-label fw-bold">Select Product</label>
+    <select id="productSelect" class="form-select" onchange="loadSpecs()">
+      <option value="">-- Choose a Product --</option>
+    </select>
+  </div>
+
+  <div class="spec-card d-none" id="specDetails">
+    <table class="table table-bordered align-middle">
+      <tbody id="specTable"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="text-center">
+  <p>© 2026 Shine Utensils</p>
+  <div>
+    <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+    <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook"></i></a>
+    <a href="https://twitter.com" target="_blank"><i class="fab fa-twitter"></i></a>
+  </div>
+</footer>
+
+<script>
+  const specs = {
+    "Shine Steel Plate Set": {
+      Material: "Food-grade Stainless Steel",
+      Capacity: "6 Plates",
+      Weight: "1.8 kg",
+      "Heat Compatibility": "Gas, Induction",
+      Durability: "Medium",
+      Warranty: "1 Year",
+      Usage: "Daily household use"
+    },
+    "Shine Aluminium Kadai": {
+      Material: "High-quality Aluminium",
+      Capacity: "2.5 Litres",
+      Weight: "1.5 kg",
+      "Heat Compatibility": "Gas",
+      Durability: "Medium",
+      Warranty: "1 Year",
+      Usage: "Deep frying, curries"
+    },
+    "Shine Non-Stick Pan": {
+      Material: "Non-stick coated Aluminium",
+      Capacity: "28 cm diameter",
+      Weight: "1.2 kg",
+      "Heat Compatibility": "Gas, Induction",
+      Durability: "High",
+      Warranty: "2 Years",
+      Usage: "Low-oil cooking"
+    },
+    "Shine Pressure Cooker": {
+      Material: "Anodized Aluminium",
+      Capacity: "5 Litres",
+      Weight: "2.9 kg",
+      "Heat Compatibility": "Gas",
+      Durability: "High",
+      Warranty: "3 Years",
+      Usage: "Fast cooking"
+    },
+    "Shine Saucepan": {
+      Material: "Stainless Steel",
+      Capacity: "1.5 Litres",
+      Weight: "1.3 kg",
+      "Heat Compatibility": "Gas, Induction",
+      Durability: "High",
+      Warranty: "2 Years",
+      Usage: "Boiling, reheating"
+    },
+    "Shine Tawa": {
+      Material: "Cast Aluminium",
+      Capacity: "30 cm",
+      Weight: "1.6 kg",
+      "Heat Compatibility": "Gas",
+      Durability: "High",
+      Warranty: "2 Years",
+      Usage: "Roti, dosa"
+    },
+    "Shine Copper Bottom Pot": {
+      Material: "Copper Bottom Stainless Steel",
+      Capacity: "3 Litres",
+      Weight: "2.4 kg",
+      "Heat Compatibility": "Gas",
+      Durability: "Very High",
+      Warranty: "5 Years",
+      Usage: "Premium cooking"
+    },
+    "Shine Luxury Cookware Set": {
+      Material: "Multi-layer Stainless Steel",
+      Capacity: "5-piece set",
+      Weight: "6.5 kg",
+      "Heat Compatibility": "Gas, Induction",
+      Durability: "Very High",
+      Warranty: "5 Years",
+      Usage: "Professional kitchens"
+    }
+  };
+
+  const select = document.getElementById("productSelect");
+  Object.keys(specs).forEach(p => {
+    select.innerHTML += `<option>${p}</option>`;
+  });
+
+  function loadSpecs() {
+    const product = select.value;
+    const table = document.getElementById("specTable");
+    const card = document.getElementById("specDetails");
+
+    if (!product) {
+      card.classList.add("d-none");
+      return;
+    }
+
+    table.innerHTML = "";
+    const data = specs[product];
+
+    for (let key in data) {
+      table.innerHTML += `
+        <tr>
+          <th>${key}</th>
+          <td>${data[key]}</td>
+        </tr>
+      `;
+    }
+
+    card.classList.remove("d-none");
+  }
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

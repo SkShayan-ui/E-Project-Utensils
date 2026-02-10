@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Shine Utensils | Contact</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+
+<style>
+body{
+  padding-top:80px;
+  font-family:"Segoe UI",sans-serif;
+  background:#050008;
+  color:#fff;
+  overflow-x:hidden;
+}
+
+/* ===== VIDEO BACKGROUND ===== */
+.video-bg{position:fixed;inset:0;z-index:-3;}
+.video-bg video{
+  width:100%;height:100%;
+  object-fit:cover;
+  filter:brightness(.25) saturate(1.2);
+}
+.video-overlay{
+  position:fixed;inset:0;
+  background:radial-gradient(circle at top, rgba(177,18,38,.45), rgba(0,0,0,.9));
+  z-index:-2;
+}
+
+/* ===== NAVBAR (IDENTICAL) ===== */
+.custom-navbar{background:linear-gradient(90deg,#b11226,#6a0dad);}
+.navbar-nav .nav-link{
+  position:relative;margin-left:12px;font-weight:500;color:#fff;
+}
+.navbar-nav .nav-link::after{
+  content:"";position:absolute;left:0;bottom:-6px;
+  width:0;height:2px;background:#fff;transition:.3s;
+}
+.navbar-nav .nav-link:hover::after,
+.navbar-nav .nav-link.active::after{width:100%;}
+
+   /* ===== PREMIUM NEON LOGO (UPDATED) ===== */
+.nav-logo {
+  height: 40px;  /* INCREASED SIZE: Adjust this number if you want it even bigger */
+  width: auto;   /* Keeps the logo from getting squashed */
+  margin-right: 15px;
+  object-fit: contain;
+  
+  /* 1. Neon Glow: This only looks good if your image has a TRANSPARENT background */
+  filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.9)) 
+          drop-shadow(0 0 10px rgba(188, 19, 254, 0.8));
+  
+  /* 2. Floating Animation */
+  animation: logoFloat 3s ease-in-out infinite;
+  transition: transform 0.3s ease;
+}
+
+/* Hover Effect: slight zoom */
+.navbar-brand:hover .nav-logo {
+  transform: scale(1.1); 
+  filter: drop-shadow(0 0 5px rgba(255, 255, 255, 1)) 
+          drop-shadow(0 0 20px rgba(188, 19, 254, 1));
+}
+
+/* Floating Keyframes */
+@keyframes logoFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+/* Adjust Navbar Brand text to align with bigger logo */
+.navbar-brand {
+  font-size: 1.5rem; /* Makes text slightly bigger to match logo */
+  display: flex;
+  align-items: center;
+}
+
+/* ===== TITLES ===== */
+.contact-title{
+  text-align:center;font-size:3rem;font-weight:900;
+  text-shadow:0 0 20px #ff004f,0 0 50px #6a0dad;
+}
+.contact-sub{text-align:center;opacity:.8;margin-bottom:50px;}
+
+/* ===== CARDS ===== */
+.contact-card,.info-card{
+  background:rgba(0,0,0,.75);
+  border-radius:24px;
+  padding:35px;
+  box-shadow:0 0 45px rgba(255,0,255,.35);
+}
+
+/* ===== INPUTS ===== */
+.form-control{
+  background:rgba(255,255,255,.08);
+  border:none;color:#fff;
+}
+.form-control::placeholder{color:#aaa;}
+.form-control:focus{
+  background:rgba(255,255,255,.12);
+  box-shadow:0 0 0 2px rgba(255,0,255,.4);
+}
+
+/* ===== BUTTON ===== */
+.btn-neon{
+  background:linear-gradient(90deg,#ff004f,#6a0dad);
+  border:none;font-weight:700;
+  box-shadow:0 0 25px rgba(255,0,255,.6);
+}
+
+/* ===== SUCCESS ===== */
+.success-anim{
+  margin-top:15px;text-align:center;
+  font-weight:700;color:#00ffae;
+  opacity:0;transform:scale(.8);
+  transition:.4s ease;
+  text-shadow:0 0 15px #00ffae;
+}
+.success-anim.show{opacity:1;transform:scale(1);}
+
+/* ===== MAP (INSIDE CARD) ===== */
+.map-wrap{
+  margin-top:20px;
+  position:relative;
+  border-radius:18px;
+  overflow:hidden;
+}
+.map-wrap iframe{
+  width:100%;height:250px;border:0;
+}
+.map-pin{
+  position:absolute;top:50%;left:50%;
+  width:16px;height:16px;
+  background:#ff004f;border-radius:50%;
+  transform:translate(-50%,-100%);
+  box-shadow:0 0 25px #ff004f;
+  animation:pulse 1.8s infinite;
+  z-index:10;
+}
+@keyframes pulse{
+  0%{transform:translate(-50%,-100%) scale(1)}
+  50%{transform:translate(-50%,-100%) scale(1.4)}
+  100%{transform:translate(-50%,-100%) scale(1)}
+}
+
+/* ===== FOOTER ===== */
+footer{
+  background:linear-gradient(90deg,#6a0dad,#b11226);
+  padding:35px 0;margin-top:90px;text-align:center;
+}
+.social a{
+  color:#fff;margin:0 12px;font-size:1.4rem;transition:.3s;
+}
+.social a:hover{
+  color:#ffb3ff;text-shadow:0 0 10px #fff;
+}
+</style>
+</head>
+
+<body>
+
+<!-- VIDEO -->
+<div class="video-bg">
+  <video autoplay muted loop playsinline>
+    <source src="Abs1.mp4">
+  </video>
+</div>
+<div class="video-overlay"></div>
+
+<nav class="navbar navbar-expand-lg navbar-dark custom-navbar fixed-top">
+  <div class="container-fluid px-4"> 
+    
+    <a class="navbar-brand fw-bold d-flex align-items-center" href="index.html">
+      <img src="logo.png" alt="Logo" class="nav-logo">
+      Shine Utensils
+    </a>
+
+    <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navMenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0 nav-animated">
+        <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="Products.html">Products</a></li>
+        <li class="nav-item"><a class="nav-link" href="categories.html">Categories</a></li>
+        <li class="nav-item"><a class="nav-link" href="specifications.html">Specifications</a></li>
+        <li class="nav-item"><a class="nav-link" href="offers.html">Offers</a></li>
+        <li class="nav-item"><a class="nav-link" href="comparison.html">Comparison</a></li>
+        <li class="nav-item"><a class="nav-link" href="cart.html">Cart</a></li>
+        <li class="nav-item"><a class="nav-link" href="checkout.html">Checkout</a></li>
+        <li class="nav-item"><a class="nav-link" href="feedback.html">Feedback</a></li>
+        <li class="nav-item"><a class="nav-link active" href="#">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container">
+<h1 class="contact-title">Let’s Talk</h1>
+<p class="contact-sub">Questions, partnerships, or just saying hi — we’re listening.</p>
+
+<div class="row g-4">
+
+<!-- FORM -->
+<div class="col-md-7">
+<div class="contact-card">
+<input class="form-control mb-3" placeholder="Your Name">
+<input class="form-control mb-3" placeholder="Email Address">
+<textarea class="form-control mb-4" rows="5" placeholder="Your Message"></textarea>
+<button class="btn btn-neon w-100 py-2" onclick="sendMessage()">Send Message</button>
+<div id="successAnim" class="success-anim">✓ Message Sent Successfully</div>
+</div>
+</div>
+
+<!-- INFO + MAP (SAME CARD) -->
+<div class="col-md-5">
+<div class="info-card">
+<strong>Office</strong>
+<p>Karachi, Pakistan</p>
+<strong>Email</strong>
+<p>support@shineutensils.com</p>
+<strong>Phone</strong>
+<p>+92 300 1234567</p>
+<strong>Hours</strong>
+<p>Mon – Sat · 10am – 7pm</p>
+
+<div class="map-wrap">
+<div class="map-pin"></div>
+<iframe
+src="https://www.google.com/maps?q=Karachi,Pakistan&z=13&output=embed"
+loading="lazy">
+</iframe>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<footer>
+<div class="social mb-2">
+<a href="#"><i class="fab fa-instagram"></i></a>
+<a href="#"><i class="fab fa-twitter"></i></a>
+<a href="#"><i class="fab fa-facebook"></i></a>
+</div>
+© 2026 Shine Utensils · Crafted with precision
+</footer>
+
+<script>
+function sendMessage(){
+  const s=document.getElementById("successAnim");
+  s.classList.add("show");
+  setTimeout(()=>s.classList.remove("show"),2500);
+}
+</script>
+
+</body>
+</html>

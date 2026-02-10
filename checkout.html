@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Shine Utensils | Checkout</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+
+<style>
+body {
+  padding-top: 80px;
+  background: #f4f6f8;
+  font-family: "Segoe UI", sans-serif;
+  color: #333;
+}
+
+/* ===== NAVBAR (IDENTICAL) ===== */
+.custom-navbar {
+  background: linear-gradient(90deg, #b11226, #6a0dad);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.navbar-nav .nav-link {
+  position: relative;
+  margin-left: 12px;
+  font-weight: 500;
+  color: #fff !important;
+  transition: all 0.3s ease;
+}
+
+.navbar-nav .nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  width: 0%;
+  height: 2px;
+  background: #fff;
+  transition: width 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover::after,
+.navbar-nav .nav-link.active::after {
+  width: 100%;
+}
+
+   /* ===== PREMIUM NEON LOGO (UPDATED) ===== */
+.nav-logo {
+  height: 40px;  /* INCREASED SIZE: Adjust this number if you want it even bigger */
+  width: auto;   /* Keeps the logo from getting squashed */
+  margin-right: 15px;
+  object-fit: contain;
+  
+  /* 1. Neon Glow: This only looks good if your image has a TRANSPARENT background */
+  filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.9)) 
+          drop-shadow(0 0 10px rgba(188, 19, 254, 0.8));
+  
+  /* 2. Floating Animation */
+  animation: logoFloat 3s ease-in-out infinite;
+  transition: transform 0.3s ease;
+}
+
+/* Hover Effect: slight zoom */
+.navbar-brand:hover .nav-logo {
+  transform: scale(1.1); 
+  filter: drop-shadow(0 0 5px rgba(255, 255, 255, 1)) 
+          drop-shadow(0 0 20px rgba(188, 19, 254, 1));
+}
+
+/* Floating Keyframes */
+@keyframes logoFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+/* Adjust Navbar Brand text to align with bigger logo */
+.navbar-brand {
+  font-size: 1.5rem; /* Makes text slightly bigger to match logo */
+  display: flex;
+  align-items: center;
+}
+
+/* ===== LAYOUT & CARDS ===== */
+.checkout-container {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.checkout-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 30px;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.05);
+  border: 1px solid rgba(0,0,0,0.02);
+  margin-bottom: 25px;
+}
+
+.section-title {
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+}
+.section-title i { margin-right: 10px; color: #6a0dad; }
+
+/* Form Controls */
+.form-control, .form-select {
+  border-radius: 10px;
+  padding: 12px;
+  border: 1px solid #eee;
+  background: #fafafa;
+}
+.form-control:focus {
+  background: #fff;
+  border-color: #6a0dad;
+  box-shadow: 0 0 0 0.2rem rgba(106, 13, 173, 0.1);
+}
+
+/* Delivery Options (Filler Content) */
+.delivery-option {
+  border: 2px solid #eee;
+  border-radius: 12px;
+  padding: 15px;
+  cursor: pointer;
+  transition: 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #fff;
+}
+.delivery-option:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+.delivery-option.active {
+  border-color: #b11226;
+  background: #fff5f5;
+}
+.delivery-icon {
+  width: 40px; height: 40px;
+  background: #eee;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  margin-right: 15px;
+  color: #555;
+}
+.delivery-option.active .delivery-icon {
+  background: #b11226;
+  color: #fff;
+}
+
+/* Right Side - Summary */
+.summary-header {
+  border-bottom: 2px solid #f4f6f8;
+  padding-bottom: 15px;
+  margin-bottom: 15px;
+}
+
+.order-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  font-size: 0.95rem;
+  color: #555;
+}
+
+/* Payment Snapshot Card */
+.payment-snapshot {
+  background: linear-gradient(135deg, #f3e9ff, #e9f0ff);
+  border-radius: 12px;
+  padding: 15px;
+  margin: 20px 0;
+  border-left: 5px solid #6a0dad;
+}
+
+/* Totals */
+.total-row {
+  display: flex; justify-content: space-between;
+  margin-bottom: 8px;
+}
+.grand-total {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #b11226;
+  border-top: 1px solid #eee;
+  padding-top: 15px;
+  margin-top: 15px;
+}
+
+/* Button */
+.btn-place-order {
+  background: linear-gradient(90deg, #b11226, #6a0dad);
+  color: #fff;
+  border: none;
+  width: 100%;
+  padding: 15px;
+  border-radius: 50px;
+  font-weight: bold;
+  font-size: 1.1rem;
+  transition: 0.3s;
+  box-shadow: 0 10px 20px rgba(106, 13, 173, 0.2);
+}
+.btn-place-order:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 15px 30px rgba(106, 13, 173, 0.3);
+  color: #fff;
+}
+
+/* Footer */
+footer {
+  background: linear-gradient(90deg, #6a0dad, #b11226);
+  color: #fff;
+  padding: 30px 0;
+  margin-top: 60px;
+}
+</style>
+</head>
+
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark custom-navbar fixed-top">
+  <div class="container-fluid px-4"> 
+    
+    <a class="navbar-brand fw-bold d-flex align-items-center" href="index.html">
+      <img src="logo.png" alt="Logo" class="nav-logo">
+      Shine Utensils
+    </a>
+
+    <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navMenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0 nav-animated">
+        <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="Products.html">Products</a></li>
+        <li class="nav-item"><a class="nav-link" href="categories.html">Categories</a></li>
+        <li class="nav-item"><a class="nav-link" href="specifications.html">Specifications</a></li>
+        <li class="nav-item"><a class="nav-link" href="offers.html">Offers</a></li>
+        <li class="nav-item"><a class="nav-link" href="comparison.html">Comparison</a></li>
+        <li class="nav-item"><a class="nav-link" href="cart.html">Cart</a></li>
+        <li class="nav-item"><a class="nav-link active" href="#">Checkout</a></li>
+        <li class="nav-item"><a class="nav-link" href="feedback.html">Feedback</a></li>
+        <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+ 
+
+<div class="container checkout-container mt-4">
+  <h2 class="fw-bold mb-4">Finalize Your Order</h2>
+
+  <div class="row g-4">
+
+    <div class="col-lg-7">
+      
+      <div class="checkout-card">
+        <h5 class="section-title"><i class="fas fa-shipping-fast"></i> Shipping Details</h5>
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label class="form-label small text-muted fw-bold">Full Name</label>
+            <input type="text" class="form-control" placeholder="John Doe" id="name">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label small text-muted fw-bold">Phone Number</label>
+            <input type="text" class="form-control" placeholder="+92 300..." id="phone">
+          </div>
+          <div class="col-12">
+            <label class="form-label small text-muted fw-bold">Delivery Address</label>
+            <textarea class="form-control" rows="2" placeholder="House #, Street, Area..." id="address"></textarea>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label small text-muted fw-bold">City</label>
+            <select class="form-select">
+              <option>Karachi</option>
+              <option>Lahore</option>
+              <option>Islamabad</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label small text-muted fw-bold">Email (Optional)</label>
+            <input type="email" class="form-control" placeholder="john@example.com">
+          </div>
+        </div>
+      </div>
+
+      <div class="checkout-card">
+        <h5 class="section-title"><i class="fas fa-box-open"></i> Delivery Method</h5>
+        
+        <div class="row g-3">
+          <div class="col-md-6">
+            <div class="delivery-option active" onclick="selectDelivery('standard', this)">
+              <div class="d-flex align-items-center">
+                <div class="delivery-icon"><i class="fas fa-truck"></i></div>
+                <div>
+                  <h6 class="mb-0 fw-bold">Standard</h6>
+                  <small class="text-muted">3-5 Working Days</small>
+                </div>
+              </div>
+              <span class="fw-bold text-success">Free</span>
+            </div>
+          </div>
+          
+          <div class="col-md-6">
+            <div class="delivery-option" onclick="selectDelivery('express', this)">
+              <div class="d-flex align-items-center">
+                <div class="delivery-icon"><i class="fas fa-plane"></i></div>
+                <div>
+                  <h6 class="mb-0 fw-bold">Express</h6>
+                  <small class="text-muted">1-2 Working Days</small>
+                </div>
+              </div>
+              <span class="fw-bold text-danger">Rs 250</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-4">
+          <label class="form-label small text-muted fw-bold">Order Notes / Gift Message</label>
+          <textarea class="form-control" rows="2" placeholder="Any special instructions?"></textarea>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="col-lg-5">
+      <div class="checkout-card bg-light">
+        <div class="summary-header">
+          <h5 class="fw-bold m-0">Order Summary</h5>
+        </div>
+        
+        <div id="orderItems" style="max-height: 200px; overflow-y: auto; padding-right:5px;">
+          </div>
+
+        <div class="payment-snapshot">
+          <h6 class="fw-bold mb-2 text-primary"><i class="fas fa-wallet me-2"></i>Payment Method</h6>
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <p class="mb-0 fw-bold" id="selectedMethod">Checking...</p>
+              <small class="text-success" id="offerAppliedText">Offer Applied</small>
+            </div>
+            <i class="fas fa-check-circle fa-2x text-success"></i>
+          </div>
+        </div>
+
+        <div class="total-row mt-3">
+          <span class="text-muted">Subtotal</span>
+          <span class="fw-bold" id="subtotalVal">Rs 0</span>
+        </div>
+        
+        <div class="total-row">
+          <span class="text-muted">Shipping</span>
+          <span class="fw-bold" id="shippingVal">Free</span>
+        </div>
+
+        <div class="total-row text-success">
+          <span>Discount</span>
+          <span class="fw-bold" id="discountVal">- Rs 0</span>
+        </div>
+
+        <div class="total-row grand-total">
+          <span>Total to Pay</span>
+          <span id="finalTotal">Rs 0</span>
+        </div>
+
+        <button class="btn-place-order mt-4" onclick="confirmOrder()">
+          Confirm Order <i class="fas fa-arrow-right ms-2"></i>
+        </button>
+
+        <div class="text-center mt-3 d-flex justify-content-center gap-3 text-muted small">
+          <span><i class="fas fa-lock me-1"></i>SSL Secure</span>
+          <span><i class="fas fa-undo me-1"></i>Money Back</span>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<footer class="text-center">
+  <p class="mb-0">© 2026 Shine Utensils. All Rights Reserved.</p>
+</footer>
+
+<script>
+  // 1. Retrieve Data from LocalStorage (Simulated linkage)
+  // In a real app, Cart page would save these keys. 
+  // For this demo, we calculate based on the raw cart data.
+  const cart = JSON.parse(localStorage.getItem("cart")) || [];
+  
+  // Let's assume the user selected "HBL" if the cart is > 3000, else standard.
+  // This logic mimics the Cart page's smart behavior.
+  
+  let subtotal = 0;
+  const orderItemsContainer = document.getElementById("orderItems");
+
+  // Render Items
+  if(cart.length === 0) {
+    orderItemsContainer.innerHTML = "<p class='text-muted text-center'>Your cart is empty.</p>";
+  } else {
+    cart.forEach(item => {
+      let itemTotal = item.price * (item.qty || 1);
+      subtotal += itemTotal;
+      
+      orderItemsContainer.innerHTML += `
+        <div class="order-item">
+          <span>${item.qty}x ${item.name}</span>
+          <span class="fw-bold">Rs ${itemTotal.toLocaleString()}</span>
+        </div>
+      `;
+    });
+  }
+
+  // Simulate Payment & Discount Retrieval
+  let discount = 0;
+  let paymentMethod = "Cash on Delivery";
+  let offerText = "Standard Checkout";
+
+  // Re-run the logic from Cart Page to ensure consistency
+  if (subtotal >= 3000) {
+    paymentMethod = "HBL Bank";
+    discount = Math.round(subtotal * 0.15); // 15% HBL logic
+    offerText = "15% HBL Discount Applied";
+  } else if (subtotal > 0) {
+    paymentMethod = "JazzCash / NayaPay"; // Suggestive fallback
+    discount = 0; // Or simulated small discount
+    offerText = "Standard Rates";
+  }
+
+  // Logic for Shipping
+  let shippingCost = 0;
+
+  function updateDisplay() {
+    document.getElementById("subtotalVal").innerText = "Rs " + subtotal.toLocaleString();
+    document.getElementById("discountVal").innerText = "- Rs " + discount.toLocaleString();
+    document.getElementById("selectedMethod").innerText = paymentMethod;
+    document.getElementById("offerAppliedText").innerText = offerText;
+    
+    // Shipping Logic
+    const shipDisplay = shippingCost === 0 ? "Free" : "Rs " + shippingCost;
+    document.getElementById("shippingVal").innerText = shipDisplay;
+
+    const final = subtotal - discount + shippingCost;
+    document.getElementById("finalTotal").innerText = "Rs " + final.toLocaleString();
+  }
+
+  // Delivery Toggle
+  function selectDelivery(type, el) {
+    document.querySelectorAll('.delivery-option').forEach(e => e.classList.remove('active'));
+    el.classList.add('active');
+    
+    if(type === 'express') {
+      shippingCost = 250;
+    } else {
+      shippingCost = 0;
+    }
+    updateDisplay();
+  }
+
+  function confirmOrder() {
+    const name = document.getElementById("name").value;
+    const address = document.getElementById("address").value;
+
+    if(!name || !address) {
+      alert("Please fill in your Name and Delivery Address.");
+      return;
+    }
+
+    if(cart.length === 0) {
+      alert("Your cart is empty!");
+      return;
+    }
+
+    if(confirm("Place order for " + document.getElementById("finalTotal").innerText + "?")) {
+      alert("Success! Thank you " + name + ", your order has been placed.");
+      localStorage.removeItem("cart");
+      window.location.href = "index.html";
+    }
+  }
+
+  // Initialize
+  updateDisplay();
+
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
