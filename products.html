@@ -1,53 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Shine Utensils | Final Elite Collection</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+<meta charset="UTF-8">
+<title>Shine Utensils | Contact</title>
 
-  <style>
-    :root {
-      --elite-bg: linear-gradient(135deg, #1a082e 0%, #2d0b16 100%);
-      --economy-glow: #00f3ff;
-      --standard-glow: #ffaa00;
-      --premium-glow: #ff00ff;
-      --success-green: #00ff88;
-      --wishlist-red: #ff3366;
-    }
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
 
-    body {
-      padding-top: 100px;
-      font-family: "SF Pro Display", -apple-system, sans-serif;
-      background: var(--elite-bg);
-      color: white;
-      min-height: 100vh;
-      transition: background 1s ease;
-      overflow-x: hidden;
-    }
+<style>
+body{
+  padding-top:80px;
+  font-family:"Segoe UI",sans-serif;
+  background:#050008;
+  color:#fff;
+  overflow-x:hidden;
+}
 
-   /* ===== NAVBAR (UNTOUCHED) ===== */
-    .custom-navbar {
-      background: linear-gradient(90deg, #b11226, #6a0dad);
-      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-    }
+/* ===== VIDEO BACKGROUND ===== */
+.video-bg{position:fixed;inset:0;z-index:-3;}
+.video-bg video{
+  width:100%;height:100%;
+  object-fit:cover;
+  filter:brightness(.25) saturate(1.2);
+}
+.video-overlay{
+  position:fixed;inset:0;
+  background:radial-gradient(circle at top, rgba(177,18,38,.45), rgba(0,0,0,.9));
+  z-index:-2;
+}
 
-    .nav-animated .nav-link {
-      position: relative;
-      margin-left: 10px;
-      font-weight: 500;
-      transition: all 0.3s ease;
-      color: rgba(255,255,255,0.8) !important;
-    }
-
-    .nav-animated .nav-link::after {
-      content: ""; position: absolute; left: 0; bottom: -5px; width: 0%; height: 2px; background: #fff; transition: width 0.3s ease;
-    }
-    .nav-animated .nav-link:hover::after { width: 100%; }
-    .nav-animated .nav-link:hover { color: #fff !important; transform: translateY(-2px); text-shadow: 0 0 10px rgba(255,255,255,0.5); }
-    .nav-animated .nav-link.active { color: #fff !important; font-weight: bold; }
-    .nav-animated .nav-link.active::after { width: 100%; }
+/* ===== NAVBAR (IDENTICAL) ===== */
+.custom-navbar{background:linear-gradient(90deg,#b11226,#6a0dad);}
+.navbar-nav .nav-link{
+  position:relative;margin-left:12px;font-weight:500;color:#fff;
+}
+.navbar-nav .nav-link::after{
+  content:"";position:absolute;left:0;bottom:-6px;
+  width:0;height:2px;background:#fff;transition:.3s;
+}
+.navbar-nav .nav-link:hover::after,
+.navbar-nav .nav-link.active::after{width:100%;}
 
    /* ===== PREMIUM NEON LOGO (UPDATED) ===== */
 .nav-logo {
@@ -84,77 +76,111 @@
   display: flex;
   align-items: center;
 }
-    /* ===== ENTRANCE ANIMATION ===== */
-    .stagger-item { animation: eliteEntrance 0.8s cubic-bezier(0.2, 1, 0.2, 1) forwards; opacity: 0; }
-    @keyframes eliteEntrance {
-      from { opacity: 0; transform: translateY(30px) scale(0.9); filter: blur(10px); }
-      to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
-    }
 
-    /* ===== 360 CARD CORE ===== */
-    .product-scene { perspective: 2000px; height: 360px; margin-bottom: 50px; }
-    .card-360 { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
-    .card-360.is-flipped { transform: rotateY(180deg); }
+/* ===== TITLES ===== */
+.contact-title{
+  text-align:center;font-size:3rem;font-weight:900;
+  text-shadow:0 0 20px #ff004f,0 0 50px #6a0dad;
+}
+.contact-sub{text-align:center;opacity:.8;margin-bottom:50px;}
 
-    .card-face {
-      position: absolute; width: 100%; height: 100%; backface-visibility: hidden;
-      border-radius: 24px; background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(25px);
-      border: 1px solid rgba(255, 255, 255, 0.15); padding: 20px; display: flex; flex-direction: column;
-      transition: 0.4s;
-    }
+/* ===== CARDS ===== */
+.contact-card,.info-card{
+  background:rgba(0,0,0,.75);
+  border-radius:24px;
+  padding:35px;
+  box-shadow:0 0 45px rgba(255,0,255,.35);
+}
 
-    .neon-economy { --glow: var(--economy-glow); }
-    .neon-standard { --glow: var(--standard-glow); }
-    .neon-premium { --glow: var(--premium-glow); }
+/* ===== INPUTS ===== */
+.form-control{
+  background:rgba(255,255,255,.08);
+  border:none;color:#fff;
+}
+.form-control::placeholder{color:#aaa;}
+.form-control:focus{
+  background:rgba(255,255,255,.12);
+  box-shadow:0 0 0 2px rgba(255,0,255,.4);
+}
 
-    .product-scene:hover .card-face { border-color: var(--glow); box-shadow: 0 0 40px -10px var(--glow); }
-    .card-back { background: #080808; transform: rotateY(180deg); border: 2px solid var(--glow); }
+.form-control:focus {
+background: rgba(255,255,255,.12);
+color: #ffffff;
+caret-color: #ffffff;
+box-shadow: 0 0 0 2px rgba(255,0,255,.4);
+}
 
-    /* IMAGE RATIO FIX */
-    .img-wrapper { height: 140px; display: flex; justify-content: center; margin-top: -40px; transform: translateZ(90px); }
-    .floating-img { max-height: 100%; filter: drop-shadow(0 20px 30px rgba(0,0,0,0.8)); transition: 0.5s; }
-    .product-scene:hover .floating-img { transform: scale(1.1) rotate(-3deg); }
+.form-control {
+background: rgba(255,255,255,.08);
+border: none;
+color: #ffffff;
+}
 
-    /* ICONS & ACTIONS */
-    .side-actions { position: absolute; right: 15px; top: 15px; display: flex; flex-direction: column; gap: 12px; z-index: 20; }
-    .btn-action {
-      width: 42px; height: 42px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
-      background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; cursor: pointer; transition: 0.3s;
-    }
-    .btn-action:hover { transform: scale(1.2); box-shadow: 0 0 20px var(--glow); background: var(--glow); color: black; }
-    .btn-wish.active { color: var(--wishlist-red) !important; border-color: var(--wishlist-red); }
+/* ===== BUTTON ===== */
+.btn-neon{
+  background:linear-gradient(90deg,#ff004f,#6a0dad);
+  border:none;font-weight:700;
+  box-shadow:0 0 25px rgba(255,0,255,.6);
+}
 
-    /* NOTIFICATIONS */
-    .elite-notification {
-      position: fixed; bottom: -100px; left: 50%; transform: translateX(-50%);
-      padding: 16px 32px; border-radius: 100px; display: flex; align-items: center; gap: 15px;
-      font-weight: 600; z-index: 3000; transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-      box-shadow: 0 10px 40px rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.2);
-    }
-    .notif-active { bottom: 40px !important; }
-    .notif-cart { background: var(--success-green); color: #00331a; }
-    .notif-wish { background: var(--wishlist-red); color: white; }
+/* ===== SUCCESS ===== */
+.success-anim{
+  margin-top:15px;text-align:center;
+  font-weight:700;color:#00ffae;
+  opacity:0;transform:scale(.8);
+  transition:.4s ease;
+  text-shadow:0 0 15px #00ffae;
+}
+.success-anim.show{opacity:1;transform:scale(1);}
 
-    /* SPECS */
-    .spec-list { padding: 0; list-style: none; font-size: 0.85rem; color: #ccc; }
-    .spec-list li { margin-bottom: 8px; display: flex; align-items: center; gap: 10px; }
-    .spec-list i { color: var(--glow); font-size: 0.75rem; }
+/* ===== MAP (INSIDE CARD) ===== */
+.map-wrap{
+  margin-top:20px;
+  position:relative;
+  border-radius:18px;
+  overflow:hidden;
+}
+.map-wrap iframe{
+  width:100%;height:250px;border:0;
+}
+.map-pin{
+  position:absolute;top:50%;left:50%;
+  width:16px;height:16px;
+  background:#ff004f;border-radius:50%;
+  transform:translate(-50%,-100%);
+  box-shadow:0 0 25px #ff004f;
+  animation:pulse 1.8s infinite;
+  z-index:10;
+}
+@keyframes pulse{
+  0%{transform:translate(-50%,-100%) scale(1)}
+  50%{transform:translate(-50%,-100%) scale(1.4)}
+  100%{transform:translate(-50%,-100%) scale(1)}
+}
 
-    .price-text { font-size: 1.5rem; font-weight: 800; color: var(--glow); margin: 5px 0; }
-    .cat-pill { background: transparent; border: 1px solid rgba(255,255,255,0.2); color: white; padding: 8px 24px; border-radius: 100px; transition: 0.4s; }
-    .cat-pill.active { background: white; color: black; }
-
-     /* ===== FOOTER (UNTOUCHED) ===== */
-    .custom-footer {
-      background: linear-gradient(90deg, #6a0dad, #b11226);
-    }
-    .custom-footer a { color: #fff; text-decoration: none; }
-    .custom-footer a:hover { text-decoration: underline; }
-    .social-icons a { font-size: 20px; margin-right: 15px; color: #fff; transition: transform 0.3s; }
-    .social-icons a:hover { transform: scale(1.2); }
-  </style>
+/* ===== FOOTER ===== */
+footer{
+  background:linear-gradient(90deg,#6a0dad,#b11226);
+  padding:35px 0;margin-top:90px;text-align:center;
+}
+.social a{
+  color:#fff;margin:0 12px;font-size:1.4rem;transition:.3s;
+}
+.social a:hover{
+  color:#ffb3ff;text-shadow:0 0 10px #fff;
+}
+</style>
 </head>
+
 <body>
+
+<!-- VIDEO -->
+<div class="video-bg">
+  <video autoplay muted loop playsinline>
+    <source src="Abs1.mp4">
+  </video>
+</div>
+<div class="video-overlay"></div>
 
 <nav class="navbar navbar-expand-lg navbar-dark custom-navbar fixed-top">
   <div class="container-fluid px-4"> 
@@ -171,7 +197,7 @@
     <div class="collapse navbar-collapse" id="navMenu">
       <ul class="navbar-nav ms-auto mb-2 mb-lg-0 nav-animated">
         <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-        <li class="nav-item"><a class="nav-link active" href="#">Products</a></li>
+        <li class="nav-item"><a class="nav-link" href="Products.html">Products</a></li>
         <li class="nav-item"><a class="nav-link" href="categories.html">Categories</a></li>
         <li class="nav-item"><a class="nav-link" href="specifications.html">Specifications</a></li>
         <li class="nav-item"><a class="nav-link" href="offers.html">Offers</a></li>
@@ -179,159 +205,113 @@
         <li class="nav-item"><a class="nav-link" href="cart.html">Cart</a></li>
         <li class="nav-item"><a class="nav-link" href="checkout.html">Checkout</a></li>
         <li class="nav-item"><a class="nav-link" href="feedback.html">Feedback</a></li>
-        <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+        <li class="nav-item"><a class="nav-link active" href="#">Contact</a></li>
       </ul>
     </div>
   </div>
 </nav>
 
-
 <div class="container">
-  <div class="d-flex justify-content-between align-items-end mb-5">
-    <div><h1 class="fw-bold m-0">Elite Collections</h1><p class="text-secondary">Precision Engineered Kitchenware</p></div>
-    <div class="d-flex gap-2">
-      <button class="cat-pill active" onclick="filterProducts('all', this)">All</button>
-      <button class="cat-pill" onclick="filterProducts('economy', this)">Economy</button>
-      <button class="cat-pill" onclick="filterProducts('standard', this)">Standard</button>
-      <button class="cat-pill" onclick="filterProducts('premium', this)">Premium</button>
+<h1 class="contact-title">Let’s Talk</h1>
+<p class="contact-sub">Questions, partnerships, or just saying hi — we’re listening.</p>
+<div class="row g-4">
+
+  <!-- LEFT COLUMN -->
+  <div class="col-md-7">
+    <div class="contact-card">
+
+      <form id="contactForm">
+
+        <input id="contactName" class="form-control mb-3" placeholder="Your Name">
+
+        <input id="contactEmail" type="email" class="form-control mb-3" placeholder="Email Address">
+
+        <textarea id="contactMessage" class="form-control mb-4" rows="5" placeholder="Your Message"></textarea>
+
+        <button type="submit" class="btn btn-neon w-100 py-2">
+          Send Message
+        </button>
+
+      </form>
+
+      <div id="successAnim" class="success-anim">
+        ✓ Message Sent Successfully
+      </div>
+
     </div>
   </div>
-  <div class="row g-4" id="productGrid"></div>
+
+  <!-- RIGHT COLUMN -->
+  <div class="col-md-5">
+    <div class="info-card">
+<strong>Office</strong>
+<p>Karachi, Pakistan</p>
+<strong>Email</strong>
+<p>support@shineutensils.com</p>
+<strong>Phone</strong>
+<p>+92 300 1234567</p>
+<strong>Hours</strong>
+<p>Mon – Sat · 10am – 7pm</p>
+
+<div class="map-wrap">
+<div class="map-pin"></div>
+<iframe
+src="https://www.google.com/maps?q=Karachi,Pakistan&z=13&output=embed"
+loading="lazy">
+</iframe>
+</div>
+</div>
 </div>
 
-<div id="notif-cart" class="elite-notification notif-cart"><i class="fas fa-shopping-bag"></i> Added to Cart Successfully</div>
-<div id="notif-wish" class="elite-notification notif-wish"><i class="fas fa-heart"></i> Saved to Your Wishlist</div>
+</div>
+</div>
 
-<footer class="custom-footer text-white pt-5">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-4">
-        <h5 class="fw-bold">Shine Utensils</h5>
-        <p>Bringing elegance and durability to every kitchen.</p>
-      </div>
-      <div class="col-md-4">
-        <h5 class="fw-bold">Quick Links</h5>
-        <ul class="list-unstyled">
-          <li><a href="index.html">Home</a></li>
-          <li><a href="Products.html">Products</a></li>
-          <li><a href="offers.html">Offers</a></li>
-          <li><a href="feedback.html">Feedback</a></li>
-        </ul>
-      </div>
-      <div class="col-md-4">
-        <h5 class="fw-bold">Follow Us</h5>
-        <div class="social-icons mt-3">
-          <a href="#"><i class="fab fa-instagram"></i></a>
-          <a href="#"><i class="fab fa-facebook-f"></i></a>
-          <a href="#"><i class="fab fa-twitter"></i></a>
-          <a href="#"><i class="fab fa-youtube"></i></a>
-        </div>
-      </div>
-    </div>
-    <hr class="mt-4">
-    <p class="text-center mb-0 pb-3">© 2026 Shine Utensils | All Rights Reserved</p>
-  </div>
+<footer>
+<div class="social mb-2">
+<a href="#"><i class="fab fa-instagram"></i></a>
+<a href="#"><i class="fab fa-twitter"></i></a>
+<a href="#"><i class="fab fa-facebook"></i></a>
+</div>
+© 2026 Shine Utensils · Crafted with precision
 </footer>
 
 <script>
-  const products = [
-    // ECONOMY
-    { name:"Steel Plate Set", price:499, cat:"economy", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSA76O4SFEcVyeytQtnCYMCylZaJ_XWqBbpog&s", specs:["Surgical 304 Steel", "Mirror Gloss Finish", "Scratch-Resistant Tech", "Dishwasher Safe"] },
-    { name:"Aluminium Kadai", price:699, cat:"economy", img:"https://www.jiomart.com/images/product/original/rvjznjh6sq/naayagi-aluminium-kadai-set-0f-2-premium-and-traditional-aluminium-kadai-kadhai-for-daily-cooking-frying-small-and-medium-size-1-litre-and-2-litre-approx-product-images-orvjznjh6sq-p595425690-0-202211181748.jpg?im=Resize=(420,420)", specs:["99.9% Pure Aluminium", "Extra Deep Basin", "Quick Thermal Core", "Reinforced Handles"] },
-    { name:"Basic Tawa", price:599, cat:"economy", img:"https://klassickitchenware.com/cdn/shop/files/Aluminum-Metal-Finish-tawa.webp?v=1752347287", specs:["Heavy-Duty Base", "Fast Heat Transfer", "Ergonomic Grip", "Rust-Proof Coating"] },
-    { name:"Steel Bowl Set", price:799, cat:"economy", img:"https://mycoconutworld.com/cdn/shop/products/2826_1_1000x.jpg?v=1752069077", specs:["Nesting Space-Saver", "Food-Grade Lining", "BPA Free Lids", "Set of 4 Sizes"] },
-    
-    // STANDARD
-    { name:"Non-Stick Pan", price:1299, cat:"standard", img:"https://www.jiomart.com/images/product/original/493644140/home-one-black-aluminium-non-stick-induction-base-fry-pan-24-cm-product-images-o493644140-p608252785-0-202402291011.jpg?im=Resize=(1000,1000)", specs:["5-Layer Granite Coat", "Induction Friendly", "PFOA Free Material", "Stay-Cool Soft Handle"] },
-    { name:"Pressure Cooker", price:1599, cat:"standard", img:"https://majesticchef.pk/cdn/shop/files/Majestic-mirror-Cooker.jpg?v=1759588505", specs:["Hard-Anodized Body", "Safety Pressure Valve", "Precision Gasket", "Grip-Lock System"] },
-    { name:"Steel Saucepan", price:1899, cat:"standard", img:"https://majesticchef.pk/cdn/shop/files/1_1_a6637393-0efe-4f16-b2dc-7b0de1f33f94.jpg?v=1735643919", specs:["Encapsulated Base", "Tapered Pour Spout", "Steel Riveted Handle", "Vented Glass Lid"] },
-    { name:"Induction Tawa", price:1499, cat:"standard", img:"https://esafashop.com/wp-content/uploads/2023/11/Tawa-Flat-Ever-Plus.jpg", specs:["Flat Induction Base", "Diamond Matrix Coating", "Heat-Resistant Rim", "Scratch Shield Tech"] },
+document.getElementById("contactForm").addEventListener("submit", function(event) {
 
-    // PREMIUM
-    { name:"Copper Bottom Pot", price:2999, cat:"premium", img:"https://m.media-amazon.com/images/I/818BTd-GuYL.jpg", specs:["Pure Copper Cladding", "Artisan Polished", "Superior Heat Control", "Gourmet Grade Build"] },
-    { name:"Onyx Anodized Pan", price:3499, cat:"premium", img:"https://www.tramontina.com/cdn/shop/files/OnyxPro_12_Inch_Hard_Anodized_Aluminum_Nonstick_Fry_Pan_80123071.jpg?v=1760355860&width=1214", specs:["Hard-Anodized Shield", "Onyx Non-Stick Core", "Metal Spoon Safe", "Professional Balance"] },
-    { name:"Luxury 5pc Set", price:5999, cat:"premium", img:"https://images-cdn.ubuy.co.in/65540ea970531d792201b648-copper-cookware-set-5-piece-luxury.jpg", specs:["Complete Chef Bundle", "Thermal Flow Design", "Silver Infused Core", "Elite Presentation Box"] },
-    { name:"Tri-Ply Kadai", price:4499, cat:"premium", img:"https://majesticchef.pk/cdn/shop/files/001_4_2b9f2be0-3c34-4f1a-a0ed-a0c70ec744ff.jpg?v=1740651539", specs:["Three-Layer Logic", "Seamless Inner Lining", "Induction Optimized", "Commercial Longevity"] }
-  ];
+  event.preventDefault();
 
-  function render(list) {
-    const grid = document.getElementById("productGrid");
-    grid.innerHTML = "";
-    list.forEach((p, i) => {
-      // We find the original index in the main 'products' array to ensure cart logic stays consistent
-      const originalIdx = products.findIndex(item => item.name === p.name);
-      
-      grid.innerHTML += `
-        <div class="col-lg-3 col-md-6 product-scene neon-${p.cat} stagger-item" style="animation-delay: ${i * 0.08}s">
-          <div class="card-360" id="card-${originalIdx}">
-            <div class="card-face">
-              <div class="side-actions">
-                <div class="btn-action" onclick="toggleFlip(${originalIdx})"><i class="fas fa-eye"></i></div>
-                <div class="btn-action btn-wish" onclick="triggerNotif('wish', this)"><i class="fas fa-heart"></i></div>
-              </div>
-              <div class="img-wrapper"><img src="${p.img}" class="floating-img"></div>
-              <div class="text-center mt-3">
-                <h6 class="fw-bold mb-1">${p.name}</h6>
-                <div class="price-text">Rs ${p.price}</div>
-                <button class="btn btn-outline-light btn-sm w-100 rounded-pill mt-2" onclick="triggerNotif('cart', null, ${originalIdx})">ADD TO CART</button>
-              </div>
-            </div>
-            <div class="card-face card-back p-4">
-               <h5 style="color:var(--glow)" class="mb-3">TECH SPECS</h5>
-               <ul class="spec-list">
-                  ${p.specs.map(s => `<li><i class="fas fa-check-double"></i> ${s}</li>`).join('')}
-               </ul>
-               <div class="mt-auto"><button class="btn btn-sm btn-link text-white p-0 opacity-50" onclick="toggleFlip(${originalIdx})">Return to View</button></div>
-            </div>
-          </div>
-        </div>`;
-    });
+  const name = document.getElementById("contactName").value.trim();
+  const email = document.getElementById("contactEmail").value.trim();
+  const message = document.getElementById("contactMessage").value.trim();
+
+  if (name.length < 3) {
+    alert("Enter a valid name.");
+    return;
   }
 
-  function toggleFlip(i) { document.getElementById(`card-${i}`).classList.toggle('is-flipped'); }
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-  function triggerNotif(type, btn, productIndex) {
-    if(btn) btn.classList.toggle('active');
-    
-    // ===== ACTUAL CART LOGIC =====
-    if (type === 'cart' && productIndex !== undefined) {
-      const product = products[productIndex];
-      let cart = JSON.parse(localStorage.getItem("cart")) || [];
-      
-      const existingItem = cart.find(item => item.name === product.name);
-      if (existingItem) {
-        existingItem.qty = (existingItem.qty || 1) + 1;
-      } else {
-        cart.push({
-          name: product.name,
-          price: product.price,
-          img: product.img,
-          qty: 1
-        });
-      }
-      localStorage.setItem("cart", JSON.stringify(cart));
-    }
-    // =============================
-
-    const el = document.getElementById(`notif-${type}`);
-    el.classList.add('notif-active');
-    setTimeout(() => el.classList.remove('notif-active'), 2500);
+  if (!emailPattern.test(email)) {
+    alert("Enter a valid email address.");
+    return;
   }
 
-  function filterProducts(cat, btn) {
-    const colors = { 
-      economy: "linear-gradient(135deg, #0d1b2a 0%, #1b263b 100%)", 
-      standard: "linear-gradient(135deg, #141414 0%, #2a2a2a 100%)", 
-      premium: "linear-gradient(135deg, #240b24 0%, #1a081a 100%)", 
-      all: "linear-gradient(135deg, #1a082e 0%, #2d0b16 100%)" 
-    };
-    document.body.style.background = colors[cat];
-    document.querySelectorAll('.cat-pill').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    render(cat === 'all' ? products : products.filter(p => p.cat === cat));
+  if (message.length < 5) {
+    alert("Message must be at least 5 characters.");
+    return;
   }
 
-  render(products);
+  const success = document.getElementById("successAnim");
+  success.classList.add("show");
+
+  document.getElementById("contactForm").reset();
+
+  setTimeout(function() {
+    success.classList.remove("show");
+  }, 2500);
+
+});
 </script>
+
 </body>
 </html>
